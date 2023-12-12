@@ -11,3 +11,6 @@ K
 src/main/resources/app.fxml,4\c\4c57f1c72cc829b2603d643ef4be0b4ded3f2027
 w
 Gsrc/main/java/com/smesitejl/controllers/controllerEntitys/TableRaw.java,6\6\66f6b97228377b02da665aa2f09a3677ad34e338
+:
+
+.gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
