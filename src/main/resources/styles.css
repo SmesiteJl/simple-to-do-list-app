@@ -1,0 +1,79 @@
+.check-box > .box {
+    -fx-pref-width: 32px;
+    -fx-pref-height: 32px;
+    -fx-background-color: white;
+    -fx-border-color: silver;
+    -fx-border-radius: 7;
+}
+.check-box:selected > .box > .mark {
+    -fx-pref-width: 32px;
+    -fx-pref-height: 32px;
+    -fx-background-color: white;
+    -fx-background-image: url("icons/arrow.png");
+    -fx-background-size: 27;
+    -fx-background-position: center;
+    -fx-background-repeat: stretch;
+    -fx-shape: none;
+
+
+}
+
+#checkColoumn{
+    -fx-alignment: CENTER-RIGHT;
+    -fx-cursor: HAND;
+}
+
+
+#delColoumn .button{
+    -fx-alignment: CENTER-LEFT;
+    -fx-pref-width: 30px;
+    -fx-pref-height: 30px;
+    -fx-background-image: url(icons/bin.png);
+    -fx-background-color: white;
+    -fx-cursor: HAND;
+}
+#addCheckBox{
+    -fx-pref-width: 64px;
+    -fx-pref-height: 64px;
+    -fx-background-color: white;
+    -fx-background-image: url(icons/plus.png);
+}
+
+#textColoumn .text-field{
+    -fx-alignment: CENTER;
+    -fx-font-size: 18;
+    -fx-font-weight: bold;
+    -fx-background-color: WHITE;
+    -fx-border-color: SILVER;
+    -fx-border-radius: 8;
+}
+
+#percent{
+    -fx-border-color: none;
+    -fx-background-color: none;
+    -fx-font-size: 16;
+    -fx-font-weight: bold;
+}
+
+#progressBar .bar{
+    -fx-background-color: BLACK;
+    -fx-background-radius: 8;
+}
+#progressBar .track{
+    -fx-border-color: SILVER;
+    -fx-border-radius: 8;
+    -fx-background-color: WHITE;
+}
+
+/*hiding header and borders*/
+#table .column-header-background {
+    visibility: hidden;
+    -fx-padding: -1em;
+}
+#table .table-row-cell{
+    -fx-border-color: WHITE;
+}
+#table {
+    -fx-border-color: WHITE;
+}
+
