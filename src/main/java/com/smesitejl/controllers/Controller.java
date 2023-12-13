@@ -74,8 +74,8 @@ public class Controller {
         //check button logic
         raw.getTo().setOnAction(actionEvent2 -> {
             updateProgress();
-            String text = raw.getText().getText();
-            if(raw.getTo().isSelected() && !raw.getText().getText().isEmpty()) {
+            String text = raw.getText().getText().trim();
+            if(raw.getTo().isSelected() && !raw.getText().getText().trim().isEmpty()) {
                 StringBuilder sb = new StringBuilder();
                 sb.append("̵");
                 for (int i = 0; i < text.length(); i++) {
@@ -83,7 +83,7 @@ public class Controller {
                 }
                 raw.getText().setText(String.valueOf(sb));
             }
-            else if (!raw.getTo().isSelected() && !raw.getText().getText().isEmpty()){
+            else if (!raw.getTo().isSelected() && !raw.getText().getText().trim().isEmpty()){
                 StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < text.length(); i++) {
                     if(text.charAt(i) != '̵'){
@@ -92,7 +92,8 @@ public class Controller {
                 }
                 raw.getText().setText(String.valueOf(sb));
             }
-            else if(raw.getTo().isSelected() && raw.getText().getText().isEmpty()){
+            else if(raw.getTo().isSelected() && raw.getText().getText().trim().isEmpty()){
+                raw.getText().setText(raw.getText().getText().trim());
                 raw.getTo().setSelected(false);
                 updateProgress();
             }
@@ -110,6 +111,7 @@ public class Controller {
         raw.getDel().setOnMouseEntered(action -> raw.getDel().setStyle("-fx-background-image: url(icons/bin.gif)"));
         raw.getDel().setOnMouseExited(action -> raw.getDel().setStyle("-fx-background-image: url(icons/bin.png)"));
     }
+
     private CheckBox checkBoxFactory(){
         return new CheckBox();
     }
