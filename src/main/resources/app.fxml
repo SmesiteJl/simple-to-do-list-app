@@ -101,9 +101,9 @@
          </children>
       </HBox>
       <Button fx:id="startDayButton" layoutX="321.0" layoutY="638.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="75.0" text="Start day" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="321.0" />
-      <StackPane layoutX="398.0" layoutY="663.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="398.0" AnchorPane.rightAnchor="96.0">
+      <StackPane layoutX="403.0" layoutY="660.0" prefHeight="66.0" prefWidth="394.0" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="403.0" AnchorPane.rightAnchor="91.0">
          <children>
-            <Label fx:id="dayTimer" prefHeight="17.0" prefWidth="110.0" text="Start your day now!" textAlignment="CENTER" StackPane.alignment="CENTER" />
+            <Label fx:id="dayTimer" prefHeight="126.0" prefWidth="394.0" text="Start your day now!" textAlignment="CENTER" StackPane.alignment="CENTER" />
          </children>
       </StackPane>
       <Button fx:id="endDayButton" layoutX="793.0" layoutY="638.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="75.0" text="End day" AnchorPane.bottomAnchor="16.0" AnchorPane.rightAnchor="20.0" />

@@ -227,3 +227,11 @@
     -fx-border-color: WHITE;
     -fx-cursor: HAND;
 }
+#dayTimer{
+    -fx-alignment: CENTER;
+    -fx-font-size: 18;
+    -fx-font-weight: bold;
+    -fx-background-color: WHITE;
+    -fx-border-color: WHITE;
+    -fx-border-radius: 8;
+}
