@@ -1,3 +1,26 @@
 
-o
-java:S3776C"RRefactor this method to reduce its Cognitive Complexity from 20 to the 15 allowed.(Ò–•ô8×€ÑŒÆ1
+|
+java:S2589"8Remove this expression which always evaluates to "false"(¸£öÓ8¡Š£2J$af2adfd3-2093-45c8-904c-2cded25db0b2
+£
+java:S1488’"_Immediately return this expression instead of assigning it to the temporary variable "seconds".(ãµ¬Ñ8£Š£2J$a9fe83b3-fddc-4da9-8732-4843e7a9e425
+	java:S112s"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ8¤Š£2J$5bca3236-94c1-41dd-8ddb-1517e388bb7a
+	java:S112Ÿ"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ8¤Š£2J$78323c13-0dfb-462b-8a65-3954bd1201bd
+Š
+java:S1192ä"FDefine a constant instead of duplicating this literal "Start" 4 times.(¾ˆ«È8¥Š£2J$4239dec7-7826-4d21-96ca-9663ea0ac4ae
+
+java:S1192½"JDefine a constant instead of duplicating this literal "Start day" 3 times.(ú§ÔÖ8¥Š£2J$8da91c2c-c07d-4391-93de-568d701de608
+
+java:S1192"IDefine a constant instead of duplicating this literal "00:00:00" 3 times.(ö Ò8¥Š£2J$bb208b61-2ba7-43d1-aeed-1cc2a9121e94
+	java:S125¯"<This block of commented-out lines of code should be removed.(ùõí8­Š£2J$f4c7e9d6-10c4-4057-8207-1eabfef8a6c6
+{
+java:S1135µ"2Complete the task associated to this TODO comment.(Ÿÿº“üÿÿÿÿ8­Š£2J$ab679cdf-a216-4ddd-ae7c-efa80ec55143
+–
+java:S3776¸"RRefactor this method to reduce its Cognitive Complexity from 17 to the 15 allowed.(Ò–•ô8­Š£2J$85b3dd51-b32b-4251-83f7-385be47a5d4b
+v
+java:S1135Ì"2Complete the task associated to this TODO comment.(ÌÛŸÀ8³Š£2J$08cd31f3-9235-4ba0-b85a-55b94b70930f
+{
+java:S1135Ğ"2Complete the task associated to this TODO comment.(¸¸âëşÿÿÿÿ8³Š£2J$3e309ef9-e86f-4299-8736-0e2fe8f0a94e
+€
+java:S1117İ"<Rename "seconds" which hides the field declared at line 344.(¹ù³ú8µŠ£2J$bfb2794c-8203-4e3d-b8dd-58426fac595c
+t
+java:S1068Ø"+Remove this unused "seconds" private field.(ü³Âşÿÿÿÿ8¹Š£2J$ae2277ed-de05-4727-a607-3438a3f5e9e2
