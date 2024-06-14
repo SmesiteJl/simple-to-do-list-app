@@ -18,21 +18,38 @@
 }
 
 /*columns*/
-#checkColoumn{
+#toHistoryColoumn{
     -fx-alignment: CENTER-RIGHT;
-    -fx-cursor: HAND;
     -fx-border-color: WHITE;
     -fx-background-color: WHITE;
 }
+#checkColoumn{
+    -fx-alignment: CENTER;
+    -fx-border-color: WHITE;
+    -fx-background-color: WHITE;
+}
+#textColoumn {
+    -fx-alignment: CENTER;
+    -fx-background-color: WHITE;
+    -fx-border-color: WHITE;
+}
+#timeColoumn{
+    -fx-alignment: CENTER;
+    -fx-background-color: WHITE;
+    -fx-border-color: WHITE;
+}
+#startupColoumn{
+    -fx-alignment: CENTER-LEFT;
+    -fx-background-color: WHITE;
+    -fx-border-color: WHITE;
+}
 #delColoumn {
+    -fx-alignment: CENTER-RIGHT;
     -fx-background-color: WHITE;
     -fx-border-color: WHITE;
 }
 
-#textColoumn {
-    -fx-background-color: WHITE;
-    -fx-border-color: WHITE;
-}
+
 
 /*buttons*/
 #delColoumn .button{
@@ -50,6 +67,41 @@
     -fx-background-color: WHITE;
     -fx-background-image: url(icons/plus.png);
 }
+
+#toHistoryColoumn .button{
+    -fx-alignment: CENTER;
+    -fx-pref-width: 30px;
+    -fx-pref-height: 30px;
+    -fx-background-image: url(icons/save.png);
+    -fx-background-color: WHITE;
+    -fx-border-color: WHITE;
+    -fx-cursor: HAND;
+}
+
+#simpleViewButton{
+    -fx-alignment: CENTER;
+    -fx-pref-width: 24px;
+    -fx-pref-height: 24px;
+    -fx-background-image: url(icons/aktie3.png);
+    -fx-background-color: WHITE;
+    -fx-border-color: WHITE;
+    -fx-cursor: HAND;
+    -fx-text-fill: TRANSPARENT;
+}
+#checkColoumn .check-box{
+    -fx-cursor: HAND;
+}
+
+#startupColoumn .button{
+    -fx-alignment: CENTER;
+    -fx-pref-width: 30px;
+    -fx-pref-height: 30px;
+    -fx-background-color: WHITE;
+    -fx-border-color: WHITE;
+    -fx-cursor: HAND;
+    -fx-text-fill: TRANSPARENT;
+}
+
 /*text field*/
 #textColoumn .text-field{
     -fx-alignment: CENTER;
@@ -59,6 +111,16 @@
     -fx-border-color: SILVER;
     -fx-border-radius: 8;
 }
+#timeColoumn .label{
+    -fx-alignment: CENTER;
+    -fx-font-size: 16;
+    -fx-font-weight: bold;
+    -fx-background-color: WHITE;
+    -fx-border-color: WHITE;
+    -fx-border-radius: 8;
+    -fx-cursor: DEFAULT;
+}
+
 /*progress bar*/
 #percent{
     -fx-border-color: none;
@@ -91,4 +153,77 @@
 #table {
     -fx-border-color: WHITE;
 }
+/*history menu set*/
+#historyAncor{
+    -fx-background-color: WHITE;
+}
+/*history table settings*/
+#historyTable .column-header-background {
+    visibility: hidden;
+    -fx-padding: -1em;
+}
+#historyTable .table-row-cell{
+    -fx-border-color: WHITE;
+}
+#historyTable {
+    -fx-border-color: WHITE;
+}
+/*history table columns*/
+#historyTableTaskColoumn{
+    -fx-alignment: CENTER-LEFT;
+    -fx-font-size: 14;
+    -fx-font-weight: bold;
+    -fx-background-color: WHITE;
+    -fx-border-color: WHITE;
+}
 
+#historyTableTimeColoumn{
+    -fx-alignment: CENTER;
+    -fx-font-size: 8;
+    -fx-font-weight: bold;
+    -fx-background-color: WHITE;
+    -fx-border-color: WHITE;
+}
+#historyTableDateColoumn{
+    -fx-alignment: CENTER;
+    -fx-font-size: 8;
+    -fx-font-weight: bold;
+    -fx-background-color: WHITE;
+    -fx-border-color: WHITE;
+}
+#historyTableDelColoumn{
+    -fx-alignment: CENTER;
+    -fx-background-color: WHITE;
+    -fx-border-color: WHITE;
+}
+#historyTableDelColoumn .button{
+    -fx-alignment: CENTER;
+    -fx-pref-width: 24px;
+    -fx-pref-height: 24px;
+    -fx-background-image: url(icons/hisBin.png);
+    -fx-background-color: WHITE;
+    -fx-border-color: WHITE;
+    -fx-cursor: HAND;
+}
+
+/*day timer and buttons*/
+#startDayButton{
+    -fx-text-fill: TRANSPARENT;
+    -fx-alignment: CENTER;
+    -fx-pref-width: 50px;
+    -fx-pref-height: 50px;
+    -fx-background-image: url(icons/sunrise.png);
+    -fx-background-color: WHITE;
+    -fx-border-color: WHITE;
+    -fx-cursor: HAND;
+}
+#endDayButton{
+    -fx-text-fill: TRANSPARENT;
+    -fx-alignment: CENTER;
+    -fx-pref-width: 50px;
+    -fx-pref-height: 50px;
+    -fx-background-image: url(icons/sunset.png);
+    -fx-background-color: WHITE;
+    -fx-border-color: WHITE;
+    -fx-cursor: HAND;
+}

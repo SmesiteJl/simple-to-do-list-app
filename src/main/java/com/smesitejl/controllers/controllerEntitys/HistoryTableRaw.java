@@ -1,6 +1,7 @@
 package com.smesitejl.controllers.controllerEntitys;
 
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,8 +13,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class HistoryTableRaw {
-    private TextField text;
-    private TextField time;
-    private TextField date;
+    private Label text;
+    private Label time;
+    private Label date;
     private Button delete;
 }

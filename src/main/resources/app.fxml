@@ -9,16 +9,12 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="ancor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="720.0" minWidth="480.0" prefHeight="720.0" prefWidth="888.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.smesitejl.controllers.Controller">
    <children>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="317.0" layoutY="14.0" prefHeight="53.0" prefWidth="557.0" text="TO-DO LIST" textAlignment="CENTER" wrapText="true" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
-         <font>
-            <Font name="System Bold" size="24.0" />
-         </font>
-      </Label>
       <StackPane layoutX="321.0" layoutY="58.0" prefHeight="445.0" prefWidth="557.0" AnchorPane.bottomAnchor="217.0" AnchorPane.leftAnchor="321.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="58.0">
          <children>
             <TableView fx:id="table" cacheShape="false" centerShape="false" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="510.0" prefWidth="524.0" scaleShape="false" StackPane.alignment="CENTER">
@@ -42,49 +38,36 @@
             </TableView>
          </children>
       </StackPane>
-      <AnchorPane prefHeight="720.0" prefWidth="286.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="historyAncor" prefHeight="720.0" prefWidth="286.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label contentDisplay="CENTER" layoutY="6.0" prefHeight="35.0" prefWidth="270.0" text="History" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="6.0">
+            <Label contentDisplay="CENTER" layoutX="102.0" layoutY="6.0" prefHeight="35.0" prefWidth="83.0" text="History" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="102.0" AnchorPane.rightAnchor="101.0" AnchorPane.topAnchor="6.0">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <StackPane prefHeight="679.0" prefWidth="286.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="41.0">
+            <StackPane alignment="CENTER_LEFT" prefHeight="679.0" prefWidth="286.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="41.0">
                <children>
-                  <TableView fx:id="historyTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="693.0" prefWidth="270.0">
+                  <TableView fx:id="historyTable" cacheShape="false" centerShape="false" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="693.0" prefWidth="270.0" scaleShape="false" StackPane.alignment="CENTER">
                     <columns>
-                      <TableColumn fx:id="historyTableTaskColoumn" prefWidth="170.0" text="Task" />
-                      <TableColumn fx:id="historyTableTimeColoumn" prefWidth="59.0" text="Time" />
-                        <TableColumn fx:id="historyTableDateColoumn" prefWidth="75.0" text="date" />
-                        <TableColumn fx:id="historyTableDelColoumn" prefWidth="40.0" text="del" />
+                        <TableColumn fx:id="historyTableDelColoumn" editable="false" prefWidth="40.0" resizable="false" sortable="false" text="del" />
+                      <TableColumn fx:id="historyTableTaskColoumn" editable="false" prefWidth="170.0" resizable="false" sortable="false" text="Task" />
+                      <TableColumn fx:id="historyTableTimeColoumn" editable="false" prefWidth="59.0" resizable="false" sortable="false" text="Time" />
+                        <TableColumn fx:id="historyTableDateColoumn" editable="false" prefWidth="75.0" resizable="false" sortable="false" text="date" />
                     </columns>
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
+                      <opaqueInsets>
+                          <Insets />
+                      </opaqueInsets>
+                      <placeholder>
+                          <Label text="" />
+                      </placeholder>
                   </TableView>
                </children>
             </StackPane>
          </children>
       </AnchorPane>
-      <StackPane layoutX="412.0" layoutY="653.0" prefHeight="53.0" prefWidth="367.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="412.0" AnchorPane.rightAnchor="109.0">
-         <children>
-            <TextField fx:id="dayTimer" alignment="CENTER" editable="false" prefHeight="53.0" prefWidth="461.0" text="Start your day now!" StackPane.alignment="CENTER">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </TextField>
-         </children>
-      </StackPane>
-      <StackPane layoutX="799.0" layoutY="653.0" prefHeight="53.0" prefWidth="75.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
-         <children>
-            <Button fx:id="endDayButton" mnemonicParsing="false" prefHeight="66.0" prefWidth="75.0" text="End day" />
-         </children>
-      </StackPane>
-      <StackPane alignment="CENTER_LEFT" layoutX="303.0" layoutY="653.0" prefHeight="53.0" prefWidth="75.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="303.0">
-         <children>
-            <Button fx:id="startDayButton" mnemonicParsing="false" prefHeight="53.0" prefWidth="75.0" text="Start day" />
-         </children>
-      </StackPane>
       <StackPane layoutX="321.0" layoutY="517.0" prefHeight="53.0" prefWidth="557.0" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="321.0" AnchorPane.rightAnchor="10.0">
          <children>
             <Button fx:id="addCheckBox" alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="53.0" prefWidth="58.0" textAlignment="CENTER">
@@ -94,7 +77,6 @@
             </Button>
          </children>
       </StackPane>
-      <Button fx:id="simpleViewButton" layoutX="673.0" layoutY="28.0" mnemonicParsing="false" text="Go to simple view " AnchorPane.rightAnchor="101.0" AnchorPane.topAnchor="28.0" />
       <StackPane layoutX="321.0" layoutY="583.0" prefHeight="63.0" prefWidth="557.0" AnchorPane.bottomAnchor="74.0" AnchorPane.leftAnchor="321.0" AnchorPane.rightAnchor="10.0">
          <children>
             <ProgressBar fx:id="progressBar" prefHeight="44.0" prefWidth="436.0" progress="0.0" />
@@ -108,5 +90,22 @@
             </TextField>
          </children>
       </StackPane>
+      <HBox alignment="CENTER" layoutX="321.0" layoutY="-1.0" prefHeight="63.0" prefWidth="557.0" AnchorPane.leftAnchor="321.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="53.0" prefWidth="149.0" text="TO-DO LIST" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <Button fx:id="simpleViewButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="114.0" />
+         </children>
+      </HBox>
+      <Button fx:id="startDayButton" layoutX="321.0" layoutY="638.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="75.0" text="Start day" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="321.0" />
+      <StackPane layoutX="398.0" layoutY="663.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="398.0" AnchorPane.rightAnchor="96.0">
+         <children>
+            <Label fx:id="dayTimer" prefHeight="17.0" prefWidth="110.0" text="Start your day now!" textAlignment="CENTER" StackPane.alignment="CENTER" />
+         </children>
+      </StackPane>
+      <Button fx:id="endDayButton" layoutX="793.0" layoutY="638.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="75.0" text="End day" AnchorPane.bottomAnchor="16.0" AnchorPane.rightAnchor="20.0" />
    </children>
 </AnchorPane>

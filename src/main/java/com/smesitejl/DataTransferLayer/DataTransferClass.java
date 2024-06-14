@@ -19,6 +19,8 @@ public class DataTransferClass {
         this.tableRaws = tableRaws;
         this.historyTableRaws = historyTableRaws;
     }
+
+
     public void unloadHistory(){
         Gson gson = new Gson();
         JsonArray jsonArray = new JsonArray();
