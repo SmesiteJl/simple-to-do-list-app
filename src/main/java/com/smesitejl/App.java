@@ -1,8 +1,7 @@
 package com.smesitejl;
 
-import com.smesitejl.DataTransferLayer.DataTransferClass;
-import com.smesitejl.controllers.Controller;
-import com.smesitejl.controllers.TimerTaskController;
+import com.smesitejl.service.DataTransferService.DataTransferImpl;
+import com.smesitejl.controller.MainController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -11,17 +10,17 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.Objects;
 
 public class App extends Application {
-    private final DataTransferClass dtc = new DataTransferClass(Controller.getTableRaws(), Controller.getHistoryTableRaws());
-    private final List<TimerTaskController> timerControls = new ArrayList<>();
+    private final DataTransferImpl dtc = new DataTransferImpl(MainController.getTableRaws(), MainController.getHistoryTableRaws());
+
     @Override
     public void start(Stage stage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("app.fxml"));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("app.fxml")));
         Scene scene = new Scene(root, 1280, 720);
-        scene.getStylesheets().add(getClass().getClassLoader().getResource("styles.css").toExternalForm());
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getClassLoader().getResource("styles.css")).toExternalForm());
         Image ico = new Image("icons/logo.png");
         stage.getIcons().add(ico);
         stage.setScene(scene);
@@ -30,9 +29,6 @@ public class App extends Application {
         stage.show();
 
         stage.setOnCloseRequest(event -> {
-            for (TimerTaskController timerControl : timerControls) {
-                timerControl.cancel();
-            }
             dtc.unloadHistory();
             dtc.unloadCurrentTasks();
             Platform.exit();

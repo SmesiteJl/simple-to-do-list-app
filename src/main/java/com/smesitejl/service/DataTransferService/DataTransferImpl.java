@@ -1,21 +1,20 @@
-package com.smesitejl.DataTransferLayer;
+package com.smesitejl.service.DataTransferService;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.smesitejl.controllers.controllerEntitys.HistoryTableRaw;
-import com.smesitejl.controllers.controllerEntitys.TableRaw;
+import com.smesitejl.entitys.HistoryTableRaw;
+import com.smesitejl.entitys.TableRaw;
+import com.smesitejl.service.PathProviderService;
 import javafx.collections.ObservableList;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
-public class DataTransferClass {
-    private final String HISTORY_TABLE_PATH = "src/main/resources/data/history.json";
-    private final String TABLE_PATH = "src/main/resources/data/currentTasks.json";
+public class DataTransferImpl {
+    private final PathProviderService pathProviderService = new PathProviderService();
     ObservableList<TableRaw> tableRaws;
     ObservableList<HistoryTableRaw> historyTableRaws;
-    public DataTransferClass(ObservableList<TableRaw> tableRaws,ObservableList<HistoryTableRaw> historyTableRaws){
+    public DataTransferImpl(ObservableList<TableRaw> tableRaws, ObservableList<HistoryTableRaw> historyTableRaws){
         this.tableRaws = tableRaws;
         this.historyTableRaws = historyTableRaws;
     }
@@ -30,9 +29,8 @@ public class DataTransferClass {
             jsonObject.addProperty("text", raw.getText().getText());
             jsonObject.addProperty("time", raw.getTime().getText());
             jsonObject.addProperty("day", raw.getDate().getText());
-            jsonArray.add(jsonObject);
-        }
-        try (FileWriter writer = new FileWriter(HISTORY_TABLE_PATH)) {
+            jsonArray.add(jsonObject);        }
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(pathProviderService.getHistoryTablePath()))) {
             gson.toJson(jsonArray, writer);
         } catch (IOException e) {
             e.printStackTrace();
@@ -50,11 +48,10 @@ public class DataTransferClass {
             jsonObject.addProperty("time", raw.getTime().getText());
             jsonArray.add(jsonObject);
         }
-        try (FileWriter writer = new FileWriter(TABLE_PATH)) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(pathProviderService.getTasksTablePath()))) {
             gson.toJson(jsonArray, writer);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 }

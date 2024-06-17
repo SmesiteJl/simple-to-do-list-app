@@ -1,4 +1,4 @@
-package com.smesitejl.controllers.controllerEntitys;
+package com.smesitejl.entitys;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;

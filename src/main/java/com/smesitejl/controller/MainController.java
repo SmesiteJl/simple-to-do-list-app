@@ -1,10 +1,12 @@
-package com.smesitejl.controllers;
+package com.smesitejl.controller;
 
 import com.google.gson.*;
 
-import com.smesitejl.controllers.controllerEntitys.HistoryTableRaw;
-import com.smesitejl.controllers.controllerEntitys.TableRaw;
+import com.smesitejl.service.PathProviderService;
+import com.smesitejl.entitys.HistoryTableRaw;
+import com.smesitejl.entitys.TableRaw;
 
+import com.smesitejl.service.TimerTaskControllerService;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,7 +22,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class Controller {
+public class MainController {
     @FXML
     private Button addCheckBox;
 
@@ -80,39 +82,38 @@ public class Controller {
 
 
 
-
-    private Double checkBoxCounter = 0.;
-    private enum daytime{
+    private enum timerStatus {
         NOT_STARTED,
         IN_PROGRESS,
         PAUSED;
     }
-    private daytime daySessionStatus = daytime.NOT_STARTED;
+    private timerStatus daySessionStatus = timerStatus.NOT_STARTED;
     @Getter
     private static final ObservableList<TableRaw> tableRaws = FXCollections.observableArrayList();
     @Getter
     private static final ObservableList<HistoryTableRaw> historyTableRaws = FXCollections.observableArrayList();
+    private final PathProviderService path = new PathProviderService();
+    private final String timeFormat = "00:00:00";
 
 
     @FXML
     void initialize() {
-        tableMapping();
-        historyTableMapping();
-        mainMapper();
-        downloadHistory();
-        downloadCurrentTasks();
+            tableMapping();
+            historyTableMapping();
+            mainMapper();
+            downloadHistory();
+            downloadCurrentTasks();
         }
 
     private void downloadCurrentTasks() {
-        try (FileReader reader = new FileReader("src/main/resources/data/currentTasks.json")) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(path.getTasksTablePath()))) {
             JsonArray jsonArray = JsonParser.parseReader(reader).getAsJsonArray();
             for (JsonElement elem : jsonArray) {
-                checkBoxCounter+=1;
                 TableRaw raw = new TableRaw(historyButtonFactory(), checkBoxFactory(), textFieldFactory(), timerLabelFactory(), startupButtonFactory(),delButtonFactory());
                 raw.getTo().setSelected(elem.getAsJsonObject().get("to").getAsBoolean());
                 raw.getText().setText(elem.getAsJsonObject().get("text").getAsString());
                 if(elem.getAsJsonObject().get("time").getAsString().isEmpty()){
-                    raw.getTime().setText("00:00:00");
+                    raw.getTime().setText(timeFormat);
                 }
                 else{
                     raw.getTime().setText(elem.getAsJsonObject().get("time").getAsString());
@@ -156,26 +157,27 @@ public class Controller {
 
 
     //reading history from json and adding to table
+
     private void readHistory(){
-        try (FileReader reader = new FileReader("src/main/resources/data/history.json")) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(path.getHistoryTablePath()))) {
             JsonArray jsonArray = JsonParser.parseReader(reader).getAsJsonArray();
             for (JsonElement elem : jsonArray) {
-                HistoryTableRaw raw = new HistoryTableRaw(historyLabelFactory(), historyLabelFactory(), historyLabelFactory(), new Button());
-                raw.getText().setText(elem.getAsJsonObject().get("text").getAsString());
-                raw.getTime().setText(elem.getAsJsonObject().get("time").getAsString());
-                raw.getDate().setText(elem.getAsJsonObject().get("day").getAsString());
-                raw.getDelete().setOnAction(actionEvent7 -> {
-                    historyTableRaws.remove(raw);
+                HistoryTableRaw historyTableRaw = new HistoryTableRaw(historyLabelFactory(), historyLabelFactory(), historyLabelFactory(), new Button());
+                historyTableRaw.getText().setText(elem.getAsJsonObject().get("text").getAsString());
+                historyTableRaw.getTime().setText(elem.getAsJsonObject().get("time").getAsString());
+                historyTableRaw.getDate().setText(elem.getAsJsonObject().get("day").getAsString());
+                historyTableRaw.getDelete().setOnAction(actionEvent7 -> {
+                    historyTableRaws.remove(historyTableRaw);
                     updateHistoryTable();
-
                     writeHistory();
                 });
-                historyTableRaws.add(raw);
+                historyTableRaw.getDelete().setOnMouseEntered(action -> historyTableRaw.getDelete().setStyle("-fx-background-image: url(icons/hisBin.gif)"));
+                historyTableRaw.getDelete().setOnMouseExited(action -> historyTableRaw.getDelete().setStyle("-fx-background-image: url(icons/hisBin.png)"));
+                historyTableRaws.add(historyTableRaw);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
 
     }
 
@@ -204,9 +206,9 @@ public class Controller {
         if(!raw.getTime().getText().isEmpty()) {
              seconds = secondsCounter(raw.getTime().getText());
         }
-        TimerTaskController timerTaskController = createTimer(raw.getTime());
-        timerTaskController.setSeconds(seconds);
-        timerTaskController.setPause(true);
+        TimerTaskControllerService timerTaskControllerService = createTimer(raw.getTime());
+        timerTaskControllerService.setSeconds(seconds);
+        timerTaskControllerService.setPause(true);
         //history button logic
         raw.getHistory().setOnAction(actionEvent8 -> {
             if (raw.getTo().isSelected()) {
@@ -218,22 +220,26 @@ public class Controller {
                 historyTableRaw.getDelete().setOnAction(actionEvent9 -> {
                     historyTableRaws.remove(historyTableRaw);
                     updateHistoryTable();
-
                     writeHistory();
                 });
+                historyTableRaw.getDelete().setOnMouseEntered(action -> historyTableRaw.getDelete().setStyle("-fx-background-image: url(icons/hisBin.gif)"));
+                historyTableRaw.getDelete().setOnMouseExited(action -> historyTableRaw.getDelete().setStyle("-fx-background-image: url(icons/hisBin.png)"));
                 historyTableRaws.add(historyTableRaw);
                 updateHistoryTable();
                 writeHistory();
 
             }
         });
+        //textField logic
+        raw.getText().setOnKeyTyped(action -> {
+            updateProgress();
+        });
 
         //del button logic
         raw.getDel().setOnAction(actionEvent1 -> {
-            timerTaskController.cancel();
+            timerTaskControllerService.cancel();
             tableRaws.remove(raw);
             updateTable();
-            checkBoxCounter -=1;
             updateProgress();
         });
         //check button logic
@@ -241,7 +247,7 @@ public class Controller {
             updateProgress();
             String text = raw.getText().getText().trim();
             if(raw.getTo().isSelected() && !raw.getText().getText().trim().isEmpty()) {
-                timerTaskController.setPause(true);
+                timerTaskControllerService.setPause(true);
                 raw.getStartup().setStyle("-fx-background-image: url(icons/play.png)");
                 raw.getStartup().setText("Start");
                 raw.getText().setText(getStrikethroughText(text));
@@ -278,7 +284,7 @@ public class Controller {
         raw.getStartup().setStyle("-fx-background-image: url(icons/play.png)");
         raw.getStartup().setOnAction(actionEvent3 -> {
             if(!raw.getText().getText().isEmpty() && !raw.getTo().isSelected() && raw.getStartup().getText().equals("Start")) {
-                timerTaskController.setPause(false);
+                timerTaskControllerService.setPause(false);
                 raw.getStartup().setStyle("-fx-background-image: url(icons/pause.png)");
                 raw.getStartup().setOnMouseEntered(action -> raw.getStartup().setStyle("-fx-background-image: url(icons/pause.gif)"));
                 raw.getStartup().setOnMouseExited(action -> raw.getStartup().setStyle("-fx-background-image: url(icons/pause.png)"));
@@ -289,7 +295,7 @@ public class Controller {
                 raw.getStartup().setOnMouseEntered(action -> raw.getStartup().setStyle("-fx-background-image: url(icons/play.gif)"));
                 raw.getStartup().setOnMouseExited(action -> raw.getStartup().setStyle("-fx-background-image: url(icons/play.png)"));
                 raw.getStartup().setText("Start");
-                timerTaskController.setPause(true);
+                timerTaskControllerService.setPause(true);
             }
         });
         raw.getStartup().setOnMouseEntered(action -> raw.getStartup().setStyle("-fx-background-image: url(icons/play.gif)"));
@@ -299,7 +305,7 @@ public class Controller {
     @SneakyThrows
     private long secondsCounter(String time){
         DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-        Date reference = dateFormat.parse("00:00:00");
+        Date reference = dateFormat.parse(timeFormat);
         Date date = dateFormat.parse(time);
         long seconds = (date.getTime() - reference.getTime()) / 1000L;
         return seconds;
@@ -327,7 +333,6 @@ public class Controller {
     private void mainMapper(){
         percent.setText("0%");
         addCheckBox.setOnAction(actionEvent -> {
-                    checkBoxCounter += 1;
                     TableRaw raw = new TableRaw(historyButtonFactory(), checkBoxFactory(), textFieldFactory(), timerLabelFactory(), startupButtonFactory(),delButtonFactory());
                     rawElementsMapping(raw);
                     tableRaws.add(raw);
@@ -343,12 +348,12 @@ public class Controller {
         //DayTime buttons mapping
         startDayButton.setOnMouseEntered(action5 -> startDayButton.setStyle("-fx-background-image: url(icons/sunrise.gif);"));
         startDayButton.setOnMouseExited(action6 -> startDayButton.setStyle("-fx-background-image: url(icons/sunrise.png);"));
-        TimerTaskController timerTaskController = createTimer(dayTimer);
-        timerTaskController.setPause(true);
+        TimerTaskControllerService timerTaskControllerService = createTimer(dayTimer);
+        timerTaskControllerService.setPause(true);
         startDayButton.setOnAction(actionEvent5 -> {
             if(startDayButton.getText().equals("Start day")){
-            daySessionStatus = daytime.IN_PROGRESS;
-            timerTaskController.setPause(false);
+            daySessionStatus = timerStatus.IN_PROGRESS;
+            timerTaskControllerService.setPause(false);
             startDayButton.setText("Pause day");
             startDayButton.setStyle("-fx-background-image: url(icons/pauseSun.gif);");
             startDayButton.setOnMouseEntered(action5 -> startDayButton.setStyle("-fx-background-image: url(icons/pauseSun.gif);"));
@@ -356,11 +361,11 @@ public class Controller {
 
             }
             else if (startDayButton.getText().equals("Pause day")){
-                daySessionStatus = daytime.PAUSED;
+                daySessionStatus = timerStatus.PAUSED;
                 startDayButton.setStyle("-fx-background-image: url(icons/playSun.png);");
                 startDayButton.setOnMouseEntered(action5 -> startDayButton.setStyle("-fx-background-image: url(icons/playSun.png);"));
                 startDayButton.setOnMouseExited(action6 -> startDayButton.setStyle("-fx-background-image: url(icons/playSun.png);"));
-                timerTaskController.setPause(true);
+                timerTaskControllerService.setPause(true);
                 startDayButton.setText("Start day");
             }
 
@@ -368,12 +373,14 @@ public class Controller {
 
 
         endDayButton.setOnAction(actionEvent6 -> {
-            timerTaskController.setPause(true);
+            timerTaskControllerService.setPause(true);
             dayTimer.setText("Start your day now!");
-            timerTaskController.setSeconds(0);
+            timerTaskControllerService.setSeconds(0);
             startDayButton.setText("Start day");
-            daySessionStatus = daytime.NOT_STARTED;
+            daySessionStatus = timerStatus.NOT_STARTED;
             startDayButton.setStyle("-fx-background-image: url(icons/sunrise.png);");
+            startDayButton.setOnMouseEntered(action5 -> startDayButton.setStyle("-fx-background-image: url(icons/sunrise.gif);"));
+            startDayButton.setOnMouseExited(action6 -> startDayButton.setStyle("-fx-background-image: url(icons/sunrise.png);"));
             //TODO: сделать вылетающее окно "Сегодня вы проработали HH:MM:SS. Потрясающе!"
 
         });
@@ -387,16 +394,16 @@ public class Controller {
         simpleViewButton.setTooltip(new Tooltip("Go to simple view"));
 
     }
-    private TimerTaskController createTimer(Label timerLabel){
+    private TimerTaskControllerService createTimer(Label timerLabel){
         Timer timer = new Timer();
-        TimerTaskController timerTaskController = new TimerTaskController();
+        TimerTaskControllerService timerTaskControllerService = new TimerTaskControllerService();
         TimerTask timerTask = new TimerTask() {
             private int seconds = 0;
             @Override
             public void run() {
-                if (!timerTaskController.isPaused()) {
-                    timerTaskController.setSeconds(timerTaskController.getSeconds() + 1);
-                    long seconds = timerTaskController.getSeconds();
+                if (!timerTaskControllerService.isPaused()) {
+                    timerTaskControllerService.setSeconds(timerTaskControllerService.getSeconds() + 1);
+                    long seconds = timerTaskControllerService.getSeconds();
                     long hours = seconds / 3600;
                     long minutes = (seconds % 3600) / 60;
                     long secs = seconds % 60;
@@ -406,10 +413,10 @@ public class Controller {
             }
         };
         timer.scheduleAtFixedRate(timerTask, 0, 1000);
-        timerTaskController.setTimer(timer);
-        timerTaskController.setTimerTask(timerTask);
+        timerTaskControllerService.setTimer(timer);
+        timerTaskControllerService.setTimerTask(timerTask);
 
-        return timerTaskController;
+        return timerTaskControllerService;
     }
 
 
@@ -427,7 +434,7 @@ public class Controller {
     }
     private Label timerLabelFactory(){
         Label label= new Label();
-        label.setText("00:00:00");
+        label.setText(timeFormat);
         return label;
     }
     private TextField textFieldFactory(){
@@ -436,13 +443,21 @@ public class Controller {
         return textField;
     }
     private void updateProgress(){
-        List<CheckBox> checkBoxList = new ArrayList<>();
-        for (int i = 0; i < checkBoxCounter; i++) {
-            checkBoxList.add(checkColoumn.getCellData(i));
+        Double selectedNotEmpty = 0.;
+        Double notEmptyTasks = 0.;
+        for (int i = 0; i < tableRaws.size(); i++) {
+            TableRaw raw = tableRaws.get(i);
+            if(raw.getTo().isSelected() && !raw.getText().getText().isEmpty()){
+                selectedNotEmpty+=1;
+            }
+            if(!raw.getText().getText().isEmpty()){
+                notEmptyTasks +=1;
+
+            }
         }
-        Double currProgress = (double) checkBoxList.stream().filter(CheckBox::isSelected).count();
-        double currProgressValue = currProgress / checkBoxCounter;
-        if(currProgress.equals(0.) && checkBoxCounter.equals(0.)){
+
+        Double currProgressValue = selectedNotEmpty / notEmptyTasks;
+        if (currProgressValue.isNaN()){
             currProgressValue = 0.;
         }
         progressBar.setProgress(currProgressValue);

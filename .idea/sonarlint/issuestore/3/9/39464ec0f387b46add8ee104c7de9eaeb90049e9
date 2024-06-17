@@ -1,35 +1,39 @@
 
-|
-java:S2589½"8Remove this expression which always evaluates to "false"(¸£öÓ8‡Í¿2J$8dbd876a-e47b-4eaa-bcc6-2536796a1f6c
+‡
+java:S3518Ê"CMake sure "notEmptyTasks" can't be zero before doing this division.(ŞÙ–ë8¥Ş€¿‚2J$25d3e245-fd9f-4a0d-a290-c85e74a6c646
 £
-java:S1488°"_Immediately return this expression instead of assigning it to the temporary variable "seconds".(ãµ¬Ñ8‡Í¿2J$92bc04a1-ddff-4038-87ab-b63436854c21
-	java:S112~"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ8‡Í¿2J$af1758b8-f74a-457f-99a8-aeaaf47a1a43
-	java:S112°"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ8‘‡Í¿2J$e5b898fd-bb93-4754-83a4-7b709c97ab35
+java:S1488µ"_Immediately return this expression instead of assigning it to the temporary variable "seconds".(ãµ¬Ñ8¥Ş€¿‚2J$df8bae46-132d-4dd8-b0e6-9257ff7ccc81
+	java:S112~"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ8§Ş€¿‚2J$53c8b40d-75fe-47e9-a153-85e8fbc5c001
+	java:S112²"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ8§Ş€¿‚2J$b590bcbe-35cc-44f9-bd17-5cbdea2641e6
 Š
-java:S1192ö"FDefine a constant instead of duplicating this literal "Start" 4 times.(¾ˆ«È8‘‡Í¿2J$cc159993-7d7d-4236-a61b-3fcbf7f739eb
+java:S1192û"FDefine a constant instead of duplicating this literal "Start" 4 times.(¾ˆ«È8¨Ş€¿‚2J$d1a03923-df91-4533-b400-7a07995384fa
 
-java:S1192İ"JDefine a constant instead of duplicating this literal "Start day" 3 times.(ú§ÔÖ8‘‡Í¿2J$f8c2f2bc-6199-440c-b437-a504e1180651
+java:S1192á"JDefine a constant instead of duplicating this literal "Start day" 3 times.(ú§ÔÖ8¨Ş€¿‚2J$9cb43fa4-98f8-417d-81c4-7d30061053ce
 ®
-java:S1192õ"jDefine a constant instead of duplicating this literal "-fx-background-image: url(icons/play.png)" 5 times.(òĞÇ8‘‡Í¿2J$7e637091-6651-4a1f-abe7-6f25473ed090
-‘
-java:S1192s"IDefine a constant instead of duplicating this literal "00:00:00" 3 times.(¯È³€ıÿÿÿÿ8‘‡Í¿2J$e8aa88a7-dc8a-4954-9216-136edd67f79a
+java:S1192ú"jDefine a constant instead of duplicating this literal "-fx-background-image: url(icons/play.png)" 5 times.(òĞÇ8¨Ş€¿‚2J$d76c8659-105e-497e-b79f-320bf170153b
 ²
-java:S1192è"nDefine a constant instead of duplicating this literal "-fx-background-image: url(icons/playSun.png);" 3 times.(ßŒªĞ8†©î¿2J$17c2d4a1-5251-4004-9680-fcc86453c7de
-’
-java:S1192á"oDefine a constant instead of duplicating this literal "-fx-background-image: url(icons/pauseSun.gif);" 3 times.(ÓàÎêøÿÿÿÿ8«‘À2
-¢
-java:S1450Z"_Remove the "daySessionStatus" field and declare it as a local variable in the relevant methods.(•‰â±8”‡Í¿2J$1a3410e6-078b-464f-b214-a2eb555f3bdb
+java:S1192ì"nDefine a constant instead of duplicating this literal "-fx-background-image: url(icons/playSun.png);" 3 times.(ßŒªĞ8¨Ş€¿‚2J$3c9d73f6-c265-49c4-9777-dbac07e1dca5
+²
+java:S1192İ"nDefine a constant instead of duplicating this literal "-fx-background-image: url(icons/sunrise.png);" 3 times.(ÑĞÔâ8¨Ş€¿‚2J$86cab90b-100f-495b-8fdb-805219a78315
+¸
+java:S1192å"oDefine a constant instead of duplicating this literal "-fx-background-image: url(icons/pauseSun.gif);" 3 times.(ÓàÎêøÿÿÿÿ8¨Ş€¿‚2J$8b5c6e75-8615-4f84-8a79-fb5b878515a8
+d
+java:S1170_"!Make this final field static too.(²…‚8¨Ş€¿‚2J$903d6162-ee98-48be-a153-5ff71d0114ce
+¡
+java:S1450Y"_Remove the "daySessionStatus" field and declare it as a local variable in the relevant methods.(¦Å8©Ş€¿‚2J$dee3d748-3344-4fb2-98cf-40e8009e499b
 {
-java:S1135Æ"2Complete the task associated to this TODO comment.(Ÿÿº“üÿÿÿÿ8‡Í¿2J$3202bfee-f275-4bbd-9a84-b0ae466081a1
+java:S1135Ç"2Complete the task associated to this TODO comment.(Ÿÿº“üÿÿÿÿ8µŞ€¿‚2J$fe42db47-e79c-481f-bb51-d33846acc8bd
 –
-java:S3776É"RRefactor this method to reduce its Cognitive Complexity from 17 to the 15 allowed.(Ò–•ô8‡Í¿2J$70f65095-d4e0-40ba-8f53-edfb98b21053
+java:S3776Ê"RRefactor this method to reduce its Cognitive Complexity from 17 to the 15 allowed.(Ò–•ô8¶Ş€¿‚2J$fa545d31-acd1-4f1a-b32f-dc16a9442500
+u
+java:S1602é",Remove useless curly braces around statement(ù…¤øÿÿÿÿ8¹Ş€¿‚2J$ba3f9702-585a-4e39-9c8b-4aa13fdcd26f
 v
-java:S1135ù"2Complete the task associated to this TODO comment.(ÌÛŸÀ8¨‡Í¿2J$22b7ce61-7844-496f-b45a-d2076716873c
+java:S1135ÿ"2Complete the task associated to this TODO comment.(ÌÛŸÀ8ÂŞ€¿‚2J$5ffa8b6d-67c4-4033-8cb1-9219c31356aa
 {
-java:S1135"2Complete the task associated to this TODO comment.(¸¸âëşÿÿÿÿ8¨‡Í¿2J$42e414f6-2da4-4958-859d-b47f037e5463
+java:S1135‡"2Complete the task associated to this TODO comment.(¸¸âëşÿÿÿÿ8ÂŞ€¿‚2J$10d209bc-333f-45e2-a782-c921e64c837a
 €
-java:S1117"<Rename "seconds" which hides the field declared at line 394.(¹ù³ú8©‡Í¿2J$d9314509-d190-422c-8444-0f36ef5b3de6
-w
-java:S1068Z"4Remove this unused "daySessionStatus" private field.(•‰â±8«‡Í¿2J$30b61cab-4ea6-4b27-aa42-f5fcd3497fb6
+java:S1117•"<Rename "seconds" which hides the field declared at line 400.(¹ù³ú8ÄŞ€¿‚2J$237b7b8c-3f03-4bea-a422-74921077b7d2
+v
+java:S1068Y"4Remove this unused "daySessionStatus" private field.(¦Å8ÈŞ€¿‚2J$c329f621-9da5-4ce4-917a-d697984e5880
 t
-java:S1068Š"+Remove this unused "seconds" private field.(ü³Âşÿÿÿÿ8«‡Í¿2J$98f42b5a-9ba2-412f-85f3-72f2ae7e6a99
+java:S1068"+Remove this unused "seconds" private field.(ü³Âşÿÿÿÿ8ÈŞ€¿‚2J$b3a05fd9-e8c4-4073-904e-29d4cf48f7d3

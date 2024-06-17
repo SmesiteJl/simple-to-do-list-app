@@ -1,8 +1,7 @@
-package com.smesitejl.controllers.controllerEntitys;
+package com.smesitejl.entitys;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -1,11 +1,11 @@
-package com.smesitejl.controllers;
+package com.smesitejl.service;
 
 import lombok.Getter;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class TimerTaskController {
+public class TimerTaskControllerService {
     @Getter
     private long seconds;
     private Timer timer;
@@ -13,7 +13,7 @@ public class TimerTaskController {
     @Getter
     private boolean paused;
 
-    public TimerTaskController() {
+    public TimerTaskControllerService() {
         this.paused = false;
     }
     public void setTimer(Timer timer) {

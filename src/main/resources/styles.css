@@ -153,9 +153,41 @@
 #table {
     -fx-border-color: WHITE;
 }
+
+/*main table scrollbar*/
+#table .scroll-bar{
+    -fx-pref-width: 12px;
+    -fx-background-color: WHITE;
+}
+#table .scroll-bar .increment-arrow{
+    -fx-shape : " ";
+}
+#table .scroll-bar .decrement-arrow{
+    -fx-shape : " ";
+}
+#table .scroll-bar .thumb{
+   -fx-background-color: BLACK;
+    -fx-background-radius: 0;
+}
+/*history table scrollbar*/
+#historyTable .scroll-bar{
+    -fx-pref-width: 6px;
+    -fx-background-color: WHITE;
+}
+#historyTable .scroll-bar .increment-arrow{
+    -fx-shape : " ";
+}
+#historyTable .scroll-bar .decrement-arrow{
+    -fx-shape : " ";
+}
+#historyTable .scroll-bar .thumb{
+    -fx-background-color: BLACK;
+    -fx-background-radius: 0;
+}
+
 /*history menu set*/
 #historyAncor{
-    -fx-background-color: WHITE;
+    -fx-background-color: #f7f7f5;
 }
 /*history table settings*/
 #historyTable .column-header-background {
@@ -163,46 +195,47 @@
     -fx-padding: -1em;
 }
 #historyTable .table-row-cell{
-    -fx-border-color: WHITE;
+    -fx-border-color: #f7f7f5;
 }
 #historyTable {
-    -fx-border-color: WHITE;
+    -fx-background-color: #f7f7f5;
+    -fx-border-color: #f7f7f5;
 }
 /*history table columns*/
 #historyTableTaskColoumn{
     -fx-alignment: CENTER-LEFT;
     -fx-font-size: 14;
     -fx-font-weight: bold;
-    -fx-background-color: WHITE;
-    -fx-border-color: WHITE;
+    -fx-background-color: #f7f7f5;
+    -fx-border-color: #f7f7f5;
 }
 
 #historyTableTimeColoumn{
     -fx-alignment: CENTER;
     -fx-font-size: 8;
     -fx-font-weight: bold;
-    -fx-background-color: WHITE;
-    -fx-border-color: WHITE;
+    -fx-background-color: #f7f7f5;
+    -fx-border-color: #f7f7f5;
 }
 #historyTableDateColoumn{
     -fx-alignment: CENTER;
     -fx-font-size: 8;
     -fx-font-weight: bold;
-    -fx-background-color: WHITE;
-    -fx-border-color: WHITE;
+    -fx-background-color: #f7f7f5;
+    -fx-border-color: #f7f7f5;
 }
 #historyTableDelColoumn{
     -fx-alignment: CENTER;
-    -fx-background-color: WHITE;
-    -fx-border-color: WHITE;
+    -fx-background-color: #f7f7f5;
+    -fx-border-color: #f7f7f5;
 }
 #historyTableDelColoumn .button{
-    -fx-alignment: CENTER;
+    -fx-background-position: CENTER BOTTOM;
     -fx-pref-width: 24px;
     -fx-pref-height: 24px;
     -fx-background-image: url(icons/hisBin.png);
-    -fx-background-color: WHITE;
-    -fx-border-color: WHITE;
+    -fx-background-color: #f7f7f5;
+    -fx-border-color: #f7f7f5;
     -fx-cursor: HAND;
 }
 
@@ -233,5 +266,4 @@
     -fx-font-weight: bold;
     -fx-background-color: WHITE;
     -fx-border-color: WHITE;
-    -fx-border-radius: 8;
 }
