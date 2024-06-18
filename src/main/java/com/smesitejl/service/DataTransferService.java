@@ -1,23 +1,23 @@
-package com.smesitejl.service.DataTransferService;
+package com.smesitejl.service;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 import com.smesitejl.entitys.HistoryTableRaw;
-import com.smesitejl.entitys.TableRaw;
-import com.smesitejl.service.PathProviderService;
+import com.smesitejl.entitys.TaskTableRaw;
+import com.smesitejl.DataKeeper;
 import javafx.collections.ObservableList;
+import javafx.scene.control.TableView;
 
 import java.io.*;
 
-public class DataTransferImpl {
+public class DataTransferService {
     private final PathProviderService pathProviderService = new PathProviderService();
-    ObservableList<TableRaw> tableRaws;
-    ObservableList<HistoryTableRaw> historyTableRaws;
-    public DataTransferImpl(ObservableList<TableRaw> tableRaws, ObservableList<HistoryTableRaw> historyTableRaws){
-        this.tableRaws = tableRaws;
-        this.historyTableRaws = historyTableRaws;
-    }
+    private final ObservableList<TaskTableRaw> taskTableRaws = DataKeeper.getTaskTaskTableRaws();
+    private final ObservableList<HistoryTableRaw> historyTableRaws = DataKeeper.getHistoryTableRaws();
+    private final PathProviderService path = new PathProviderService();
+
+
+
+
 
 
     public void unloadHistory(){
@@ -40,9 +40,9 @@ public class DataTransferImpl {
     public void unloadCurrentTasks() {
         Gson gson = new Gson();
         JsonArray jsonArray = new JsonArray();
-        for (int i = 0; i <tableRaws.size(); i++) {
+        for (int i = 0; i < taskTableRaws.size(); i++) {
             JsonObject jsonObject = new JsonObject();
-            TableRaw raw = tableRaws.get(i);
+            TaskTableRaw raw = taskTableRaws.get(i);
             jsonObject.addProperty("to", raw.getTo().isSelected());
             jsonObject.addProperty("text", raw.getText().getText());
             jsonObject.addProperty("time", raw.getTime().getText());
@@ -54,4 +54,21 @@ public class DataTransferImpl {
             e.printStackTrace();
         }
     }
+
+    public void downloadHistory(TableView<HistoryTableRaw> historyTable){
+        try (BufferedReader reader = new BufferedReader(new FileReader(path.getHistoryTablePath()))) {
+            JsonArray jsonArray = JsonParser.parseReader(reader).getAsJsonArray();
+            for (JsonElement elem : jsonArray) {
+                HistoryTableRaw historyTableRaw = new HistoryTableRaw(
+                        elem.getAsJsonObject().get("text").getAsString(),
+                        elem.getAsJsonObject().get("time").getAsString(),
+                        elem.getAsJsonObject().get("day").getAsString(), historyTable);
+                DataKeeper.addHistoryTableRaw(historyTableRaw);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
 }

@@ -61,7 +61,7 @@
     -fx-border-color: WHITE;
     -fx-cursor: HAND;
 }
-#addCheckBox{
+#addTableRaw{
     -fx-pref-width: 64px;
     -fx-pref-height: 64px;
     -fx-background-color: WHITE;
@@ -122,7 +122,7 @@
 }
 
 /*progress bar*/
-#percent{
+#currentProgressText{
     -fx-border-color: none;
     -fx-background-color: none;
     -fx-font-size: 16;
