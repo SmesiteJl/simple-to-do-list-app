@@ -6,13 +6,12 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 
 public class ProgressProcessingService {
-    public ProgressProcessingService(){
+    private Double currProgressValue;
 
-    }
-    ContentDisplayService contentDisplayService = new ContentDisplayService();
+   ContentDisplayService contentDisplayService = new ContentDisplayService();
     public void updateProgress(ProgressBar progressBar, TextField currentProgressText){
-        Double selectedNotEmpty = 0.;
-        Double notEmptyTasks = 0.;
+        double selectedNotEmpty = 0.;
+        double notEmptyTasks = 0.;
         for (int i = 0; i < DataKeeper.getTaskTaskTableRaws().size(); i++) {
             TaskTableRaw raw = DataKeeper.getTaskTaskTableRaws().get(i);
             if(raw.getTo().isSelected() && !raw.getText().getText().isEmpty()){
@@ -22,7 +21,7 @@ public class ProgressProcessingService {
                 notEmptyTasks +=1;
             }
         }
-        Double currProgressValue = selectedNotEmpty / notEmptyTasks;
+        currProgressValue = selectedNotEmpty / notEmptyTasks;
         if (currProgressValue.isNaN()){
             currProgressValue = 0.;
         }

@@ -5,7 +5,9 @@ import com.smesitejl.entitys.HistoryTableRaw;
 import com.smesitejl.entitys.TaskTableRaw;
 import com.smesitejl.DataKeeper;
 import javafx.collections.ObservableList;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 
 import java.io.*;
 
@@ -52,6 +54,27 @@ public class DataTransferService {
             gson.toJson(jsonArray, writer);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void downloadCurrentTasks(TableView<TaskTableRaw> table, TableView<HistoryTableRaw> historyTable, ProgressBar progressBar, TextField currentProgressText) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(path.getTasksTablePath()))) {
+            JsonArray jsonArray = JsonParser.parseReader(reader).getAsJsonArray();
+            for (JsonElement elem : jsonArray) {
+                TaskTableRaw raw = new TaskTableRaw(elem.getAsJsonObject().get("to").getAsBoolean(),
+                        elem.getAsJsonObject().get("text").getAsString(),
+                        elem.getAsJsonObject().get("time").getAsString(),
+                        table,
+                        historyTable,
+                        progressBar,
+                        currentProgressText
+                );
+                raw.getText().setText(elem.getAsJsonObject().get("text").getAsString());
+                DataKeeper.addTaskTableRaw(raw);
+
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

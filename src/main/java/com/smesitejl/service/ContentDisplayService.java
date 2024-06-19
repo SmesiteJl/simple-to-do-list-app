@@ -2,6 +2,7 @@ package com.smesitejl.service;
 
 import com.smesitejl.entitys.HistoryTableRaw;
 import com.smesitejl.DataKeeper;
+import com.smesitejl.entitys.TaskTableRaw;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ProgressBar;
@@ -13,6 +14,9 @@ public class ContentDisplayService {
 
     public void displayHistoryTable(TableView<HistoryTableRaw> historyTable){
         historyTable.setItems(getReverseList());
+    }
+    public void displayTaskTable(TableView<TaskTableRaw> taskTable){
+        taskTable.setItems(DataKeeper.getTaskTaskTableRaws());
     }
 
     public void displayProgress(Double currProgressValue, ProgressBar progressBar, TextField currentProgressText){

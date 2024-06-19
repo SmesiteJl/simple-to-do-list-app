@@ -78,9 +78,7 @@ public class MainStageController {
         IN_PROGRESS,
         PAUSED;
     }
-    private timerStatus daySessionStatus = timerStatus.NOT_STARTED;
-    private final PathProviderService path = new PathProviderService();
-    private final String timeFormat = "00:00:00";
+
     private final ContentDisplayService contentDisplayService = new ContentDisplayService();
     private final DataTransferService dataTransferService = new DataTransferService();
     private final TableMapperService tableMapperService = new TableMapperService();
@@ -108,25 +106,9 @@ public class MainStageController {
         }
 
     private void downloadCurrentTasks() {
-        try (BufferedReader reader = new BufferedReader(new FileReader(path.getTasksTablePath()))) {
-            JsonArray jsonArray = JsonParser.parseReader(reader).getAsJsonArray();
-            for (JsonElement elem : jsonArray) {
-                TaskTableRaw raw = new TaskTableRaw(elem.getAsJsonObject().get("to").getAsBoolean(),
-                        elem.getAsJsonObject().get("text").getAsString(),
-                        elem.getAsJsonObject().get("time").getAsString(),
-                        table,
-                        historyTable,
-                        progressBar,
-                        currentProgressText
-                        );
-                raw.getText().setText(elem.getAsJsonObject().get("text").getAsString());
-                DataKeeper.addTaskTableRaw(raw);
-                updateTaskTable();
-                updateProgress();
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        dataTransferService.downloadCurrentTasks(table, historyTable, progressBar,currentProgressText);
+        contentDisplayService.displayTaskTable(table);
+        progressProcessingService.updateProgress(progressBar,currentProgressText);
     }
 
     private void downloadHistory() {
@@ -142,8 +124,8 @@ public class MainStageController {
                             progressBar,
                             currentProgressText);
                     DataKeeper.addTaskTableRaw(raw);
-                    updateTaskTable();
-                    updateProgress();
+                    contentDisplayService.displayTaskTable(table);
+                    progressProcessingService.updateProgress(progressBar,currentProgressText);
                 }
         );
 
@@ -160,36 +142,5 @@ public class MainStageController {
         });
         simpleViewButton.setTooltip(new Tooltip("Go to simple view"));
 
-    }
-
-    private Button historyButtonFactory(){
-        return new Button();
-    }
-    private CheckBox checkBoxFactory(){
-        return new CheckBox();
-    }
-    private Button delButtonFactory(){
-        return new Button();
-    }
-    private Button startupButtonFactory(){
-        return new Button();
-    }
-    private Label timerLabelFactory(){
-        Label label= new Label();
-        label.setText(timeFormat);
-        return label;
-    }
-    private TextField textFieldFactory(){
-        TextField textField = new TextField();
-        textField.setPromptText("New task...");
-        return textField;
-    }
-
-    private void updateProgress(){
-        progressProcessingService.updateProgress(progressBar,currentProgressText);
-    }
-
-    private void updateTaskTable(){
-        table.setItems(DataKeeper.getTaskTaskTableRaws());
     }
 }
