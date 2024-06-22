@@ -19,11 +19,6 @@ public class ContentDisplayService {
         taskTable.setItems(DataKeeper.getTaskTaskTableRaws());
     }
 
-    public void displayProgress(Double currProgressValue, ProgressBar progressBar, TextField currentProgressText){
-        progressBar.setProgress(currProgressValue);
-        currentProgressText.setText(String.format("%.0f", currProgressValue * 100) + "%");
-    }
-
     private ObservableList<HistoryTableRaw> getReverseList(){
         ObservableList<HistoryTableRaw> reverseHistoryList = FXCollections.observableArrayList();
         for(int i = DataKeeper.getHistoryTableRaws().size()-1; i >= 0; i--){

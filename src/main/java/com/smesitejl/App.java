@@ -1,5 +1,7 @@
 package com.smesitejl;
 
+import com.smesitejl.context.ApplicationContext;
+import com.smesitejl.controller.Controller;
 import com.smesitejl.service.DataTransferService;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -10,7 +12,6 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 
-import java.sql.Time;
 import java.util.Objects;
 
 public class App extends Application {
@@ -19,7 +20,10 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception{
         long openRequestTime =  System.currentTimeMillis();
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("app.fxml")));
+        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getClassLoader().getResource("app.fxml")));
+        Controller controller = Controller.getInstance();
+        loader.setController(controller);
+        Parent root = loader.load();
         Scene scene = new Scene(root, 1280, 720);
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getClassLoader().getResource("styles.css")).toExternalForm());
         Image ico = new Image("icons/logo.png");
@@ -35,7 +39,7 @@ public class App extends Application {
         });
         stage.show();
         long showTime =  System.currentTimeMillis();
-        System.out.println("Application strted for: " + (showTime - openRequestTime) + " millis");
+        System.out.println("Application started for: " + (showTime - openRequestTime) + " millis");
     }
 
     public static void main(String[] args) {

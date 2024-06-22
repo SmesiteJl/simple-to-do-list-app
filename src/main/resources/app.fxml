@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="ancor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="720.0" minWidth="480.0" prefHeight="720.0" prefWidth="888.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.smesitejl.controller.MainStageController">
+<AnchorPane fx:id="ancor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="720.0" minWidth="480.0" prefHeight="720.0" prefWidth="888.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <StackPane layoutX="321.0" layoutY="58.0" prefHeight="445.0" prefWidth="557.0" AnchorPane.bottomAnchor="217.0" AnchorPane.leftAnchor="321.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="58.0">
          <children>

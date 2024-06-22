@@ -1,19 +1,20 @@
 package com.smesitejl.controller;
-
-import com.google.gson.*;
-
-import com.smesitejl.service.*;
+import com.smesitejl.context.ApplicationContext;
 import com.smesitejl.entitys.HistoryTableRaw;
 import com.smesitejl.entitys.TaskTableRaw;
 
 import com.smesitejl.DataKeeper;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.fxml.FXML;
 
+import java.net.URL;
+import java.util.ResourceBundle;
 
-import java.io.*;
 
-public class MainStageController {
+public class Controller implements Initializable {
+
+    private static Controller instance;
     @FXML
     private Button addTableRaw;
 
@@ -71,23 +72,22 @@ public class MainStageController {
     @FXML
     private Button simpleViewButton;
 
+    private final ApplicationContext applicationContext = ApplicationContext.getInstance();
 
-
-    private enum timerStatus {
-        NOT_STARTED,
-        IN_PROGRESS,
-        PAUSED;
+    public static synchronized Controller getInstance() {
+        if (instance == null) {
+            instance = new Controller();
+        }
+        return instance;
     }
 
-    private final ContentDisplayService contentDisplayService = new ContentDisplayService();
-    private final DataTransferService dataTransferService = new DataTransferService();
-    private final TableMapperService tableMapperService = new TableMapperService();
-    private final ProgressProcessingService progressProcessingService = new ProgressProcessingService();
-    DayTimerService dayTimerService = new DayTimerService();
+    private Controller(){
+    }
 
-    @FXML
-    void initialize() {
-            tableMapperService.doTaskTableMapping(table,
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        applicationContext.getTableMapperService().doTaskTableMapping(table,
                     toHistoryColoumn,
                     checkColoumn,
                     textColoumn,
@@ -95,7 +95,7 @@ public class MainStageController {
                     startupColoumn,
                     delColoumn
                     );
-            tableMapperService.doHistoryTableMapping(historyTable,
+            applicationContext.getTableMapperService().doHistoryTableMapping(historyTable,
                     historyTableDelColoumn,
                     historyTableTaskColoumn,
                     historyTableTimeColoumn,
@@ -106,14 +106,14 @@ public class MainStageController {
         }
 
     private void downloadCurrentTasks() {
-        dataTransferService.downloadCurrentTasks(table, historyTable, progressBar,currentProgressText);
-        contentDisplayService.displayTaskTable(table);
-        progressProcessingService.updateProgress(progressBar,currentProgressText);
+        applicationContext.getDataTransferService().downloadCurrentTasks(table, historyTable, progressBar,currentProgressText);
+        applicationContext.getContentDisplayService().displayTaskTable(table);
+        applicationContext.getProgressProcessingService().updateProgress(progressBar,currentProgressText);
     }
 
     private void downloadHistory() {
-        dataTransferService.downloadHistory(historyTable);
-        contentDisplayService.displayHistoryTable(historyTable);
+        applicationContext.getDataTransferService().downloadHistory(historyTable);
+        applicationContext.getContentDisplayService().displayHistoryTable(historyTable);
     }
 
     private void mainMapper(){
@@ -124,8 +124,8 @@ public class MainStageController {
                             progressBar,
                             currentProgressText);
                     DataKeeper.addTaskTableRaw(raw);
-                    contentDisplayService.displayTaskTable(table);
-                    progressProcessingService.updateProgress(progressBar,currentProgressText);
+                    applicationContext.getContentDisplayService().displayTaskTable(table);
+                    applicationContext.getProgressProcessingService().updateProgress(progressBar,currentProgressText);
                 }
         );
 
@@ -134,7 +134,7 @@ public class MainStageController {
         addTableRaw.setOnMouseExited(action5 -> addTableRaw.setStyle("-fx-background-image: url(icons/plus.png);"));
 
         //DayTime buttons mapping
-        dayTimerService.createDayTimer(startDayButton, endDayButton,dayTimer);
+        applicationContext.getDayTimerService().createDayTimer(startDayButton, endDayButton,dayTimer);
 
         //simple view button logic
         simpleViewButton.setOnAction(actionEvent6 -> {
@@ -143,4 +143,18 @@ public class MainStageController {
         simpleViewButton.setTooltip(new Tooltip("Go to simple view"));
 
     }
+
+    public void addHistoryTableRaw(){
+
+    }
+    public void removeHistoryTableRaw(){
+
+    }
+
+    public void displayProgress(Double currProgressValue){
+        progressBar.setProgress(currProgressValue);
+        currentProgressText.setText(String.format("%.0f", currProgressValue * 100) + "%");
+    }
+
+
 }
