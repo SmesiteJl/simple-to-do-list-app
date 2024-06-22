@@ -11,6 +11,9 @@ public class ApplicationContext {
     private final TableMapperService tableMapperService;
     private final ProgressProcessingService progressProcessingService;
     private final DayTimerService dayTimerService;
+    private final HistoryTableService historyTableService;
+    private final TaskTableService taskTableService;
+
 
     public static ApplicationContext getInstance(){
         if (instance == null) {
@@ -20,6 +23,8 @@ public class ApplicationContext {
     }
 
     private ApplicationContext(){
+        taskTableService = new TaskTableService();
+        historyTableService = new HistoryTableService();
         dataTransferService = new DataTransferService();
         tableMapperService = new TableMapperService();
         progressProcessingService = new ProgressProcessingService();

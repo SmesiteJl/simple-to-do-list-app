@@ -78,8 +78,6 @@ public class Controller implements Initializable {
 
     private final ApplicationContext applicationContext = ApplicationContext.getInstance();
 
-    HistoryTableService historyTableService = new HistoryTableService();
-    TaskTableService taskTableService = new TaskTableService();
 
     public static synchronized Controller getInstance() {
         if (instance == null) {
@@ -148,15 +146,15 @@ public class Controller implements Initializable {
     }
 
     public void addHistoryTableRaw(String text, String time, String date){
-        historyTableService.addHistoryTableRaw(text, time, date);
+        applicationContext.getHistoryTableService().addHistoryTableRaw(text, time, date);
         displayHistoryTable();
     }
     public void addHistoryTableRaw(String text, String time){
-        historyTableService.addHistoryTableRaw(text, time);
+        applicationContext.getHistoryTableService().addHistoryTableRaw(text, time);
         displayHistoryTable();
     }
     public void removeHistoryTableRaw(HistoryTableRaw raw){
-        historyTableService.removeHistoryTableRaw(raw);
+        applicationContext.getHistoryTableService().removeHistoryTableRaw(raw);
         displayHistoryTable();
 
     }
@@ -167,14 +165,14 @@ public class Controller implements Initializable {
     }
 
     public void addTaskTableRaw(){
-        taskTableService.addTaskTableRaw();
+        applicationContext.getTaskTableService().addTaskTableRaw();
     }
     public void addTaskTableRaw(Boolean to, String text, String time){
-        taskTableService.addTaskTableRaw(to, text,time);
+        applicationContext.getTaskTableService().addTaskTableRaw(to, text,time);
     }
 
     public void removeTaskTableRaw(TaskTableRaw raw) {
-        taskTableService.removeTaskTableRaw(raw);
+        applicationContext.getTaskTableService().removeTaskTableRaw(raw);
     }
 
     public void displayTaskTable(){
