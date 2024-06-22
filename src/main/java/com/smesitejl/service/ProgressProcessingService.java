@@ -8,11 +8,11 @@ import javafx.scene.control.TextField;
 
 public class ProgressProcessingService {
     private Double currProgressValue;
-    public void updateProgress(ProgressBar progressBar, TextField currentProgressText){
+    public void updateProgress(){
         double selectedNotEmpty = 0.;
         double notEmptyTasks = 0.;
-        for (int i = 0; i < DataKeeper.getTaskTaskTableRaws().size(); i++) {
-            TaskTableRaw raw = DataKeeper.getTaskTaskTableRaws().get(i);
+        for (int i = 0; i < DataKeeper.getInstance().getTaskTaskTableRaws().size(); i++) {
+            TaskTableRaw raw = DataKeeper.getInstance().getTaskTaskTableRaws().get(i);
             if(raw.getTo().isSelected() && !raw.getText().getText().isEmpty()){
                 selectedNotEmpty+=1;
             }
@@ -24,7 +24,6 @@ public class ProgressProcessingService {
         if (currProgressValue.isNaN()){
             currProgressValue = 0.;
         }
-        System.out.println("using controller instance");
         Controller.getInstance().displayProgress(currProgressValue);
     }
 }

@@ -17,7 +17,7 @@
    <children>
       <StackPane layoutX="321.0" layoutY="58.0" prefHeight="445.0" prefWidth="557.0" AnchorPane.bottomAnchor="217.0" AnchorPane.leftAnchor="321.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="58.0">
          <children>
-            <TableView fx:id="table" cacheShape="false" centerShape="false" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="510.0" prefWidth="524.0" scaleShape="false" StackPane.alignment="CENTER">
+            <TableView fx:id="taskTable" cacheShape="false" centerShape="false" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="510.0" prefWidth="524.0" scaleShape="false" StackPane.alignment="CENTER">
               <columns>
                   <TableColumn fx:id="toHistoryColoumn" editable="false" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="75.0" resizable="false" sortable="false" text="Column X" />
                 <TableColumn fx:id="checkColoumn" editable="false" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="41.0" resizable="false" sortable="false" text="check" />

@@ -7,8 +7,6 @@ import lombok.Getter;
 public class ApplicationContext {
 
     private static ApplicationContext instance;
-
-    private final ContentDisplayService contentDisplayService;
     private final DataTransferService dataTransferService;
     private final TableMapperService tableMapperService;
     private final ProgressProcessingService progressProcessingService;
@@ -22,7 +20,6 @@ public class ApplicationContext {
     }
 
     private ApplicationContext(){
-        contentDisplayService = new ContentDisplayService();
         dataTransferService = new DataTransferService();
         tableMapperService = new TableMapperService();
         progressProcessingService = new ProgressProcessingService();

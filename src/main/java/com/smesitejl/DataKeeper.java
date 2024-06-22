@@ -10,9 +10,9 @@ public class DataKeeper {
     private static DataKeeper instance;
 
     @Getter
-    private static ObservableList<TaskTableRaw> taskTaskTableRaws = FXCollections.observableArrayList();
+    private  ObservableList<TaskTableRaw> taskTaskTableRaws = FXCollections.observableArrayList();
     @Getter
-    private static ObservableList<HistoryTableRaw> historyTableRaws = FXCollections.observableArrayList();
+    private  ObservableList<HistoryTableRaw> historyTableRaws = FXCollections.observableArrayList();
 
     public static DataKeeper getInstance() {
         if (instance == null) {
@@ -20,16 +20,20 @@ public class DataKeeper {
         }
         return instance;
     }
-    public static void addTaskTableRaw(TaskTableRaw raw){
+
+    private DataKeeper(){
+        ;
+    }
+    public  void addTaskTableRaw(TaskTableRaw raw){
         taskTaskTableRaws.add(raw);
     }
-    public static  void addHistoryTableRaw(HistoryTableRaw raw){
+    public  void addHistoryTableRaw(HistoryTableRaw raw){
         historyTableRaws.add(raw);
     }
-    public static void removeTaskTableRaw(TaskTableRaw raw){
+    public  void removeTaskTableRaw(TaskTableRaw raw){
         taskTaskTableRaws.remove(raw);
     }
-    public static void removeHistoryTableRaw(HistoryTableRaw raw){
+    public  void removeHistoryTableRaw(HistoryTableRaw raw){
         historyTableRaws.remove(raw);
     }
 }

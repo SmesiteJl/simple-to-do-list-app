@@ -143,29 +143,29 @@
 #ancor {
     -fx-background-color: WHITE;
 }
-#table .column-header-background {
+#taskTable .column-header-background {
     visibility: hidden;
     -fx-padding: -1em;
 }
-#table .table-row-cell{
+#taskTable .taskTable-row-cell{
     -fx-border-color: WHITE;
 }
-#table {
+#taskTable {
     -fx-border-color: WHITE;
 }
 
 /*main table scrollbar*/
-#table .scroll-bar{
+#taskTable .scroll-bar{
     -fx-pref-width: 12px;
     -fx-background-color: WHITE;
 }
-#table .scroll-bar .increment-arrow{
+#taskTable .scroll-bar .increment-arrow{
     -fx-shape : " ";
 }
-#table .scroll-bar .decrement-arrow{
+#taskTable .scroll-bar .decrement-arrow{
     -fx-shape : " ";
 }
-#table .scroll-bar .thumb{
+#taskTable .scroll-bar .thumb{
    -fx-background-color: BLACK;
     -fx-background-radius: 0;
 }

@@ -4,6 +4,10 @@ import com.smesitejl.entitys.HistoryTableRaw;
 import com.smesitejl.entitys.TaskTableRaw;
 
 import com.smesitejl.DataKeeper;
+import com.smesitejl.service.HistoryTableService;
+import com.smesitejl.service.TaskTableService;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.fxml.FXML;
@@ -22,7 +26,7 @@ public class Controller implements Initializable {
     private ProgressBar progressBar;
 
     @FXML
-    private TableView<TaskTableRaw> table;
+    private TableView<TaskTableRaw> taskTable;
 
     @FXML
     private TableColumn<TaskTableRaw, CheckBox> checkColoumn;
@@ -74,6 +78,9 @@ public class Controller implements Initializable {
 
     private final ApplicationContext applicationContext = ApplicationContext.getInstance();
 
+    HistoryTableService historyTableService = new HistoryTableService();
+    TaskTableService taskTableService = new TaskTableService();
+
     public static synchronized Controller getInstance() {
         if (instance == null) {
             instance = new Controller();
@@ -87,7 +94,7 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        applicationContext.getTableMapperService().doTaskTableMapping(table,
+        applicationContext.getTableMapperService().doTaskTableMapping(taskTable,
                     toHistoryColoumn,
                     checkColoumn,
                     textColoumn,
@@ -106,26 +113,22 @@ public class Controller implements Initializable {
         }
 
     private void downloadCurrentTasks() {
-        applicationContext.getDataTransferService().downloadCurrentTasks(table, historyTable, progressBar,currentProgressText);
-        applicationContext.getContentDisplayService().displayTaskTable(table);
-        applicationContext.getProgressProcessingService().updateProgress(progressBar,currentProgressText);
+        applicationContext.getDataTransferService().downloadCurrentTasks();
+        displayTaskTable();
+        applicationContext.getProgressProcessingService().updateProgress();
     }
 
     private void downloadHistory() {
-        applicationContext.getDataTransferService().downloadHistory(historyTable);
-        applicationContext.getContentDisplayService().displayHistoryTable(historyTable);
+        applicationContext.getDataTransferService().downloadHistory();
+        displayHistoryTable();
     }
 
     private void mainMapper(){
         currentProgressText.setText("0%");
         addTableRaw.setOnAction(actionEvent -> {
-                    TaskTableRaw raw = new TaskTableRaw(table,
-                            historyTable,
-                            progressBar,
-                            currentProgressText);
-                    DataKeeper.addTaskTableRaw(raw);
-                    applicationContext.getContentDisplayService().displayTaskTable(table);
-                    applicationContext.getProgressProcessingService().updateProgress(progressBar,currentProgressText);
+                    addTaskTableRaw();
+                    displayTaskTable();
+                    applicationContext.getProgressProcessingService().updateProgress();
                 }
         );
 
@@ -144,11 +147,42 @@ public class Controller implements Initializable {
 
     }
 
-    public void addHistoryTableRaw(){
+    public void addHistoryTableRaw(String text, String time, String date){
+        historyTableService.addHistoryTableRaw(text, time, date);
+        displayHistoryTable();
+    }
+    public void addHistoryTableRaw(String text, String time){
+        historyTableService.addHistoryTableRaw(text, time);
+        displayHistoryTable();
+    }
+    public void removeHistoryTableRaw(HistoryTableRaw raw){
+        historyTableService.removeHistoryTableRaw(raw);
+        displayHistoryTable();
 
     }
-    public void removeHistoryTableRaw(){
 
+
+    public void displayHistoryTable(){
+        historyTable.setItems(getReverseList());
+    }
+
+    public void addTaskTableRaw(){
+        taskTableService.addTaskTableRaw();
+    }
+    public void addTaskTableRaw(Boolean to, String text, String time){
+        taskTableService.addTaskTableRaw(to, text,time);
+    }
+
+    public void removeTaskTableRaw(TaskTableRaw raw) {
+        taskTableService.removeTaskTableRaw(raw);
+    }
+
+    public void displayTaskTable(){
+        taskTable.setItems(DataKeeper.getInstance().getTaskTaskTableRaws());
+    }
+
+    public void updateProgress(){
+        applicationContext.getProgressProcessingService().updateProgress();
     }
 
     public void displayProgress(Double currProgressValue){
@@ -156,5 +190,12 @@ public class Controller implements Initializable {
         currentProgressText.setText(String.format("%.0f", currProgressValue * 100) + "%");
     }
 
+    private ObservableList<HistoryTableRaw> getReverseList(){
+        ObservableList<HistoryTableRaw> reverseHistoryList = FXCollections.observableArrayList();
+        for(int i = DataKeeper.getInstance().getHistoryTableRaws().size()-1; i >= 0; i--){
+            reverseHistoryList.add(DataKeeper.getInstance().getHistoryTableRaws().get(i));
+        }
+        return reverseHistoryList;
+    }
 
 }

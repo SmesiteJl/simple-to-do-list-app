@@ -1,6 +1,7 @@
 package com.smesitejl.service;
 
 import com.google.gson.*;
+import com.smesitejl.controller.Controller;
 import com.smesitejl.entitys.HistoryTableRaw;
 import com.smesitejl.entitys.TaskTableRaw;
 import com.smesitejl.DataKeeper;
@@ -13,8 +14,8 @@ import java.io.*;
 
 public class DataTransferService {
     private final PathProviderService pathProviderService = new PathProviderService();
-    private final ObservableList<TaskTableRaw> taskTableRaws = DataKeeper.getTaskTaskTableRaws();
-    private final ObservableList<HistoryTableRaw> historyTableRaws = DataKeeper.getHistoryTableRaws();
+    private final ObservableList<TaskTableRaw> taskTableRaws = DataKeeper.getInstance().getTaskTaskTableRaws();
+    private final ObservableList<HistoryTableRaw> historyTableRaws = DataKeeper.getInstance().getHistoryTableRaws();
     private final PathProviderService path = new PathProviderService();
 
 
@@ -57,20 +58,13 @@ public class DataTransferService {
         }
     }
 
-    public void downloadCurrentTasks(TableView<TaskTableRaw> table, TableView<HistoryTableRaw> historyTable, ProgressBar progressBar, TextField currentProgressText) {
+    public void downloadCurrentTasks() {
         try (BufferedReader reader = new BufferedReader(new FileReader(path.getTasksTablePath()))) {
             JsonArray jsonArray = JsonParser.parseReader(reader).getAsJsonArray();
             for (JsonElement elem : jsonArray) {
-                TaskTableRaw raw = new TaskTableRaw(elem.getAsJsonObject().get("to").getAsBoolean(),
+                Controller.getInstance().addTaskTableRaw(elem.getAsJsonObject().get("to").getAsBoolean(),
                         elem.getAsJsonObject().get("text").getAsString(),
-                        elem.getAsJsonObject().get("time").getAsString(),
-                        table,
-                        historyTable,
-                        progressBar,
-                        currentProgressText
-                );
-                raw.getText().setText(elem.getAsJsonObject().get("text").getAsString());
-                DataKeeper.addTaskTableRaw(raw);
+                        elem.getAsJsonObject().get("time").getAsString());
 
             }
         } catch (IOException e) {
@@ -78,16 +72,14 @@ public class DataTransferService {
         }
     }
 
-    public void downloadHistory(TableView<HistoryTableRaw> historyTable){
+    public void downloadHistory(){
         try (BufferedReader reader = new BufferedReader(new FileReader(path.getHistoryTablePath()))) {
             JsonArray jsonArray = JsonParser.parseReader(reader).getAsJsonArray();
             for (JsonElement elem : jsonArray) {
-                HistoryTableRaw historyTableRaw = new HistoryTableRaw(
-                        elem.getAsJsonObject().get("text").getAsString(),
+                Controller.getInstance().addHistoryTableRaw(elem.getAsJsonObject().get("text").getAsString(),
                         elem.getAsJsonObject().get("time").getAsString(),
-                        elem.getAsJsonObject().get("day").getAsString(), historyTable);
-                DataKeeper.addHistoryTableRaw(historyTableRaw);
-            }
+                        elem.getAsJsonObject().get("day").getAsString());
+                           }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
