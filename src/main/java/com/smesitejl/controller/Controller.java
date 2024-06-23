@@ -1,11 +1,11 @@
 package com.smesitejl.controller;
 import com.smesitejl.context.ApplicationContext;
-import com.smesitejl.entitys.HistoryTableRaw;
-import com.smesitejl.entitys.TaskTableRaw;
+import com.smesitejl.entitys.HistoryTableRow;
+import com.smesitejl.entitys.TaskTableRow;
 
-import com.smesitejl.DataKeeper;
-import com.smesitejl.service.HistoryTableService;
-import com.smesitejl.service.TaskTableService;
+
+import com.smesitejl.repository.DataKeeper;
+import com.smesitejl.repository.StyleProvider;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
@@ -20,28 +20,28 @@ public class Controller implements Initializable {
 
     private static Controller instance;
     @FXML
-    private Button addTableRaw;
+    private Button addTableRow;
 
     @FXML
     private ProgressBar progressBar;
 
     @FXML
-    private TableView<TaskTableRaw> taskTable;
+    private TableView<TaskTableRow> taskTable;
 
     @FXML
-    private TableColumn<TaskTableRaw, CheckBox> checkColoumn;
+    private TableColumn<TaskTableRow, CheckBox> checkColoumn;
 
     @FXML
-    private TableColumn<TaskTableRaw, TextField> textColoumn;
+    private TableColumn<TaskTableRow, TextField> textColoumn;
 
     @FXML
-    private TableColumn<TaskTableRaw, TextField> timeColoumn;
+    private TableColumn<TaskTableRow, TextField> timeColoumn;
 
     @FXML
-    private TableColumn<TaskTableRaw, Button> startupColoumn;
+    private TableColumn<TaskTableRow, Button> startupColoumn;
 
     @FXML
-    private TableColumn<TaskTableRaw, Button> delColoumn;
+    private TableColumn<TaskTableRow, Button> delColoumn;
 
     @FXML
     private TextField currentProgressText;
@@ -50,25 +50,25 @@ public class Controller implements Initializable {
     private Label dayTimer;
 
     @FXML
-    private TableView<HistoryTableRaw> historyTable;
+    private TableView<HistoryTableRow> historyTable;
 
     @FXML
-    private TableColumn<HistoryTableRaw, TextField> historyTableDateColoumn;
+    private TableColumn<HistoryTableRow, TextField> historyTableDateColoumn;
 
     @FXML
-    private TableColumn<HistoryTableRaw, Button> historyTableDelColoumn;
+    private TableColumn<HistoryTableRow, Button> historyTableDelColoumn;
 
     @FXML
-    private TableColumn<HistoryTableRaw, TextField> historyTableTaskColoumn;
+    private TableColumn<HistoryTableRow, TextField> historyTableTaskColoumn;
 
     @FXML
-    private TableColumn<HistoryTableRaw, TextField> historyTableTimeColoumn;
+    private TableColumn<HistoryTableRow, TextField> historyTableTimeColoumn;
 
     @FXML
     private Button startDayButton;
 
     @FXML
-    private TableColumn<TaskTableRaw, Button> toHistoryColoumn;
+    private TableColumn<TaskTableRow, Button> toHistoryColoumn;
 
     @FXML
     private Button endDayButton;
@@ -123,16 +123,15 @@ public class Controller implements Initializable {
 
     private void mainMapper(){
         currentProgressText.setText("0%");
-        addTableRaw.setOnAction(actionEvent -> {
-                    addTaskTableRaw();
+        addTableRow.setOnAction(actionEvent -> {
+                    addTaskTablerow();
                     displayTaskTable();
                     applicationContext.getProgressProcessingService().updateProgress();
                 }
         );
 
         //"plus" animations
-        addTableRaw.setOnMouseEntered(action4 -> addTableRaw.setStyle("-fx-background-image: url(icons/plus.gif);"));
-        addTableRaw.setOnMouseExited(action5 -> addTableRaw.setStyle("-fx-background-image: url(icons/plus.png);"));
+        StyleProvider.getInstance().getPlusButtonStyle(addTableRow);
 
         //DayTime buttons mapping
         applicationContext.getDayTimerService().createDayTimer(startDayButton, endDayButton,dayTimer);
@@ -145,16 +144,16 @@ public class Controller implements Initializable {
 
     }
 
-    public void addHistoryTableRaw(String text, String time, String date){
-        applicationContext.getHistoryTableService().addHistoryTableRaw(text, time, date);
+    public void addHistoryTablerow(String text, String time, String date){
+        applicationContext.getHistoryTableService().addHistoryTableRow(text, time, date);
         displayHistoryTable();
     }
-    public void addHistoryTableRaw(String text, String time){
-        applicationContext.getHistoryTableService().addHistoryTableRaw(text, time);
+    public void addHistoryTablerow(String text, String time){
+        applicationContext.getHistoryTableService().addHistoryTableRow(text, time);
         displayHistoryTable();
     }
-    public void removeHistoryTableRaw(HistoryTableRaw raw){
-        applicationContext.getHistoryTableService().removeHistoryTableRaw(raw);
+    public void removeHistoryTablerow(HistoryTableRow row){
+        applicationContext.getHistoryTableService().removeHistoryTableRow(row);
         displayHistoryTable();
 
     }
@@ -164,19 +163,19 @@ public class Controller implements Initializable {
         historyTable.setItems(getReverseList());
     }
 
-    public void addTaskTableRaw(){
-        applicationContext.getTaskTableService().addTaskTableRaw();
+    public void addTaskTablerow(){
+        applicationContext.getTaskTableService().addTaskTablerow();
     }
-    public void addTaskTableRaw(Boolean to, String text, String time){
-        applicationContext.getTaskTableService().addTaskTableRaw(to, text,time);
+    public void addTaskTablerow(Boolean to, String text, String time){
+        applicationContext.getTaskTableService().addTaskTablerow(to, text,time);
     }
 
-    public void removeTaskTableRaw(TaskTableRaw raw) {
-        applicationContext.getTaskTableService().removeTaskTableRaw(raw);
+    public void removeTaskTablerow(TaskTableRow row) {
+        applicationContext.getTaskTableService().removeTaskTableRow(row);
     }
 
     public void displayTaskTable(){
-        taskTable.setItems(DataKeeper.getInstance().getTaskTaskTableRaws());
+        taskTable.setItems(DataKeeper.getInstance().getTaskTaskTableRows());
     }
 
     public void updateProgress(){
@@ -188,10 +187,10 @@ public class Controller implements Initializable {
         currentProgressText.setText(String.format("%.0f", currProgressValue * 100) + "%");
     }
 
-    private ObservableList<HistoryTableRaw> getReverseList(){
-        ObservableList<HistoryTableRaw> reverseHistoryList = FXCollections.observableArrayList();
-        for(int i = DataKeeper.getInstance().getHistoryTableRaws().size()-1; i >= 0; i--){
-            reverseHistoryList.add(DataKeeper.getInstance().getHistoryTableRaws().get(i));
+    private ObservableList<HistoryTableRow> getReverseList(){
+        ObservableList<HistoryTableRow> reverseHistoryList = FXCollections.observableArrayList();
+        for(int i = DataKeeper.getInstance().getHistoryTableRows().size()-1; i >= 0; i--){
+            reverseHistoryList.add(DataKeeper.getInstance().getHistoryTableRows().get(i));
         }
         return reverseHistoryList;
     }

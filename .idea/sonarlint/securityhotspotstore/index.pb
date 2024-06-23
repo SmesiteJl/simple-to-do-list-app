@@ -28,8 +28,6 @@ l
 +src/main/java/com/smesitejl/DataKeeper.java,9\2\92a61772dae34673e1d2638eae52ea659b0a2e53
 r
 Bsrc/main/java/com/smesitejl/service/ProgressProcessingService.java,f\0\f0bdb1249111f737d6fd9211273e556c6596b693
-n
->src/main/java/com/smesitejl/service/ContentDisplayService.java,4\3\43d15de7d8539735e11c3591046f8c6d123f7b9a
 h
 8src/main/java/com/smesitejl/service/DayTimerService.java,2\b\2bd57f46151330203fb55cc4bb2cb35dd8dfa542
 e
@@ -42,3 +40,7 @@ f
 6src/main/java/com/smesitejl/controller/Controller.java,d\b\db2edae1875925e81814c3b6c8a6bac0a49e8596
 l
 <src/main/java/com/smesitejl/service/HistoryTableService.java,1\8\18ce53a0a9169d642af7267aa1ddd3c973522851
+i
+9src/main/java/com/smesitejl/repository/StyleProvider.java,0\d\0d948b672cb4a9843eee1ab5bf4d8d7b34cd19f8
+f
+6src/main/java/com/smesitejl/repository/DataKeeper.java,6\5\6568449b3e664509baaa9233469f8b76d7d8b185

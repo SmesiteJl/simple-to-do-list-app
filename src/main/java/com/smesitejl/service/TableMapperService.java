@@ -1,19 +1,19 @@
 package com.smesitejl.service;
 
 
-import com.smesitejl.entitys.HistoryTableRaw;
-import com.smesitejl.entitys.TaskTableRaw;
+import com.smesitejl.entitys.HistoryTableRow;
+import com.smesitejl.entitys.TaskTableRow;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class TableMapperService {
-    public void doTaskTableMapping(TableView<TaskTableRaw> table,
-                                   TableColumn<TaskTableRaw, Button> toHistoryColoumn,
-                                   TableColumn<TaskTableRaw, CheckBox> checkColoumn,
-                                   TableColumn<TaskTableRaw, TextField> textColoumn,
-                                   TableColumn<TaskTableRaw, TextField> timeColoumn,
-                                   TableColumn<TaskTableRaw, Button> startupColoumn,
-                                   TableColumn<TaskTableRaw, Button> delColoumn){
+    public void doTaskTableMapping(TableView<TaskTableRow> table,
+                                   TableColumn<TaskTableRow, Button> toHistoryColoumn,
+                                   TableColumn<TaskTableRow, CheckBox> checkColoumn,
+                                   TableColumn<TaskTableRow, TextField> textColoumn,
+                                   TableColumn<TaskTableRow, TextField> timeColoumn,
+                                   TableColumn<TaskTableRow, Button> startupColoumn,
+                                   TableColumn<TaskTableRow, Button> delColoumn){
         table.setSelectionModel(null);
         toHistoryColoumn.setCellValueFactory(new PropertyValueFactory<>("history"));
         checkColoumn.setCellValueFactory(new PropertyValueFactory<>("to"));
@@ -22,19 +22,28 @@ public class TableMapperService {
         startupColoumn.setCellValueFactory(new PropertyValueFactory<>("startup"));
         delColoumn.setCellValueFactory(new PropertyValueFactory<>("del"));
         //columns wight
-        toHistoryColoumn.prefWidthProperty().bind(table.widthProperty().divide(24)); //1/24
-        checkColoumn.prefWidthProperty().bind(table.widthProperty().divide(24)); //1/24
-        textColoumn.prefWidthProperty().bind(table.widthProperty().divide(1.5)); //16/24
-        timeColoumn.prefWidthProperty().bind((table.widthProperty().divide(12))); //4/24
-        startupColoumn.prefWidthProperty().bind(table.widthProperty().divide(12)); //1/24
-        delColoumn.prefWidthProperty().bind(table.widthProperty().divide(24)); //1/24
+        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_NEXT_COLUMN);
+        timeColoumn.setPrefWidth(75);
+        toHistoryColoumn.setPrefWidth(35);
+        checkColoumn.setPrefWidth(35);
+        startupColoumn.setPrefWidth(35);
+        delColoumn.setPrefWidth(35);
+        //TODO: make text column dynamic widht 
+        //textColoumn.setMinWidth(100);
+        //textColoumn.prefWidthProperty().bind(table.widthProperty().divide(1.35)); //16/24
+        //toHistoryColoumn.prefWidthProperty().bind(table.widthProperty().divide(24)); //1/24
+        //checkColoumn.prefWidthProperty().bind(table.widthProperty().divide(24)); //1/24
+
+        //timeColoumn.prefWidthProperty().bind((table.widthProperty().divide(12))); //4/24
+        //startupColoumn.prefWidthProperty().bind(table.widthProperty().divide(12)); //1/24
+        //delColoumn.prefWidthProperty().bind(table.widthProperty().divide(24)); //1/24
         //TODO: count wight of coloumns
     }
-    public void doHistoryTableMapping(TableView<HistoryTableRaw> historyTable,
-                                      TableColumn<HistoryTableRaw, Button> historyTableDelColoumn,
-                                      TableColumn<HistoryTableRaw, TextField> historyTableTaskColoumn,
-                                      TableColumn<HistoryTableRaw, TextField> historyTableTimeColoumn,
-                                      TableColumn<HistoryTableRaw, TextField> historyTableDateColoumn){
+    public void doHistoryTableMapping(TableView<HistoryTableRow> historyTable,
+                                      TableColumn<HistoryTableRow, Button> historyTableDelColoumn,
+                                      TableColumn<HistoryTableRow, TextField> historyTableTaskColoumn,
+                                      TableColumn<HistoryTableRow, TextField> historyTableTimeColoumn,
+                                      TableColumn<HistoryTableRow, TextField> historyTableDateColoumn){
         historyTable.setSelectionModel(null);
         historyTableTaskColoumn.setCellValueFactory(new PropertyValueFactory<>("text"));
         historyTableTimeColoumn.setCellValueFactory(new PropertyValueFactory<>("time"));

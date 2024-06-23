@@ -1,6 +1,5 @@
 package com.smesitejl;
 
-import com.smesitejl.context.ApplicationContext;
 import com.smesitejl.controller.Controller;
 import com.smesitejl.service.DataTransferService;
 import javafx.application.Application;

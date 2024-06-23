@@ -19,7 +19,7 @@
 
 /*columns*/
 #toHistoryColoumn{
-    -fx-alignment: CENTER-RIGHT;
+    -fx-alignment: CENTER-LEFT;
     -fx-border-color: WHITE;
     -fx-background-color: WHITE;
 }
@@ -53,7 +53,7 @@
 
 /*buttons*/
 #delColoumn .button{
-    -fx-alignment: CENTER-LEFT;
+    -fx-alignment: CENTER;
     -fx-pref-width: 30px;
     -fx-pref-height: 30px;
     -fx-background-image: url(icons/bin.png);
@@ -61,7 +61,7 @@
     -fx-border-color: WHITE;
     -fx-cursor: HAND;
 }
-#addTableRaw{
+#addTableRow{
     -fx-pref-width: 64px;
     -fx-pref-height: 64px;
     -fx-background-color: WHITE;
@@ -140,7 +140,7 @@
 }
 
 /*hiding header and borders*/
-#ancor {
+#taskAncor {
     -fx-background-color: WHITE;
 }
 #taskTable .column-header-background {
@@ -149,6 +149,7 @@
 }
 #taskTable .taskTable-row-cell{
     -fx-border-color: WHITE;
+    -fx-background-color: WHITE;
 }
 #taskTable {
     -fx-border-color: WHITE;
@@ -204,7 +205,7 @@
 /*history table columns*/
 #historyTableTaskColoumn{
     -fx-alignment: CENTER-LEFT;
-    -fx-font-size: 14;
+    -fx-font-size: 10;
     -fx-font-weight: bold;
     -fx-background-color: #f7f7f5;
     -fx-border-color: #f7f7f5;

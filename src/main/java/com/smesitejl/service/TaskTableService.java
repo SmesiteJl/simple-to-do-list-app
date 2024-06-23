@@ -1,12 +1,9 @@
 package com.smesitejl.service;
 
-import com.smesitejl.DataKeeper;
+import com.smesitejl.entitys.TaskTableRow;
+import com.smesitejl.repository.DataKeeper;
 import com.smesitejl.controller.Controller;
-import com.smesitejl.entitys.TaskTableRaw;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import com.smesitejl.repository.StyleProvider;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -15,197 +12,115 @@ import java.util.Date;
 
 public class TaskTableService {
 
-    private final String timeFormat = "00:00:00";
+    private static final String TIME_FORMAT= "00:00:00";
 
     private enum timerStatus {
         IN_PROGRESS,
-        PAUSED;
+        PAUSED
     }
 
     private timerStatus taskTimerStatus = timerStatus.PAUSED;
 
-    public void  addTaskTableRaw(){
-        TaskTableRaw raw = new TaskTableRaw();
-        //timer mapping
-        raw.getTime().setText(timeFormat);
-        long seconds = 0;
-        TimerTaskControllerService timerTaskControllerService = new TimerTaskControllerService().createTimer(raw.getTime());
-        timerTaskControllerService.setSeconds(seconds); //timer value set
-        timerTaskControllerService.setPause(true);
-
-        //toHistory Button logic
-        raw.getHistory().setOnAction(actionEvent8 -> {
-            if (raw.getTo().isSelected()) {
-                Controller.getInstance().addHistoryTableRaw(getUnStrikethroughText(raw.getText().getText()),raw.getTime().getText());
-            }
-        });
-        raw.getHistory().setOnMouseEntered(action -> raw.getHistory().setStyle("-fx-background-image: url(icons/save.gif)"));
-        raw.getHistory().setOnMouseExited(action -> raw.getHistory().setStyle("-fx-background-image: url(icons/save.png)"));
-
-        //checkBox logic
-        raw.getTo().setOnAction(actionEvent2 -> {
-            Controller.getInstance().updateProgress();
-            String textValue = raw.getText().getText().trim();
-            if(raw.getTo().isSelected() && !raw.getText().getText().trim().isEmpty()) {
-                timerTaskControllerService.setPause(true);
-                raw.getStartup().setStyle("-fx-background-image: url(icons/play.png)");
-                taskTimerStatus = timerStatus.PAUSED;
-                raw.getText().setText(getStrikethroughText(textValue));
-            }
-            else if (!raw.getTo().isSelected() && !raw.getText().getText().trim().isEmpty()){
-                raw.getText().setText(getUnStrikethroughText(textValue));
-            }
-            else if(raw.getTo().isSelected() && raw.getText().getText().trim().isEmpty()){
-                raw.getText().setText(raw.getText().getText().trim());
-                raw.getTo().setSelected(false);
-                Controller.getInstance().updateProgress();
-            }
-        });
-                /*//check box tooltips
-                raw.getTo().setOnMouseEntered(action -> {
-                                if(raw.getText().getText().isEmpty()){
-                                        raw.getTo().setTooltip(new Tooltip("You cannot perform task without definition"));
-                                }
-                                else {
-                                        raw.getTo().setTooltip(new Tooltip("Keep it up"));
-                                }*/
-        //textField logic
-        raw.getText().setPromptText("New task...");
-        raw.getText().setOnKeyTyped(action -> {
-            Controller.getInstance().updateProgress();
-        });
-
-        //startup button logic
-        raw.getStartup().setStyle("-fx-background-image: url(icons/play.png)");
-        raw.getStartup().setOnAction(actionEvent3 -> {
-            if(!raw.getText().getText().isEmpty() && !raw.getTo().isSelected() && taskTimerStatus.equals(timerStatus.PAUSED)) {
-                timerTaskControllerService.setPause(false);
-                raw.getStartup().setStyle("-fx-background-image: url(icons/pause.png)");
-                raw.getStartup().setOnMouseEntered(action -> raw.getStartup().setStyle("-fx-background-image: url(icons/pause.gif)"));
-                raw.getStartup().setOnMouseExited(action -> raw.getStartup().setStyle("-fx-background-image: url(icons/pause.png)"));
-                taskTimerStatus = timerStatus.IN_PROGRESS;
-            }
-            else if(taskTimerStatus.equals(timerStatus.IN_PROGRESS)){
-                raw.getStartup().setStyle("-fx-background-image: url(icons/play.png)");
-                raw.getStartup().setOnMouseEntered(action -> raw.getStartup().setStyle("-fx-background-image: url(icons/play.gif)"));
-                raw.getStartup().setOnMouseExited(action -> raw.getStartup().setStyle("-fx-background-image: url(icons/play.png)"));
-                taskTimerStatus = timerStatus.PAUSED;
-                timerTaskControllerService.setPause(true);
-            }
-        });
-        raw.getStartup().setOnMouseEntered(action -> raw.getStartup().setStyle("-fx-background-image: url(icons/play.gif)"));
-        raw.getStartup().setOnMouseExited(action -> raw.getStartup().setStyle("-fx-background-image: url(icons/play.png)"));
-
-        //del button logic
-        raw.getDel().setOnAction(actionEvent1 -> {
-            timerTaskControllerService.cancel();
-            Controller.getInstance().removeTaskTableRaw(raw);
-
-        });
-        //del button animation
-        raw.getDel().setOnMouseEntered(action -> raw.getDel().setStyle("-fx-background-image: url(icons/bin.gif)"));
-        raw.getDel().setOnMouseExited(action -> raw.getDel().setStyle("-fx-background-image: url(icons/bin.png)"));
-        DataKeeper.getInstance().addTaskTableRaw(raw);
+    public void  addTaskTablerow(){
+        DataKeeper.getInstance().addTaskTableRow(getDefaultrowTableRow());
     }
     
-    public void addTaskTableRaw(Boolean to, String text, String time){
-        TaskTableRaw raw = new TaskTableRaw();
-        //timer mapping
-        if(time.isEmpty()){
-            raw.getTime().setText(timeFormat);
-        }
-        else{
-            raw.getTime().setText(time);
-        }
-        long seconds = 0;
-        if(!raw.getTime().getText().isEmpty()) {
-            seconds = secondsCounter(raw.getTime().getText());
-        }
-        TimerTaskControllerService timerTaskControllerService = new TimerTaskControllerService().createTimer(raw.getTime());
-        timerTaskControllerService.setSeconds(seconds); //timer value set
-        timerTaskControllerService.setPause(true);
-
-        //toHistory Button logic
-        raw.getHistory().setOnAction(actionEvent8 -> {
-            if (raw.getTo().isSelected()) {
-                Controller.getInstance().addHistoryTableRaw(getUnStrikethroughText(raw.getText().getText()),raw.getTime().getText());
-            }
-        });
-        raw.getHistory().setOnMouseEntered(action -> raw.getHistory().setStyle("-fx-background-image: url(icons/save.gif)"));
-        raw.getHistory().setOnMouseExited(action -> raw.getHistory().setStyle("-fx-background-image: url(icons/save.png)"));
-
-        //checkBox logic
-        raw.getTo().setSelected(to);
-        raw.getTo().setOnAction(actionEvent2 -> {
-            Controller.getInstance().updateProgress();
-            String textValue = raw.getText().getText().trim();
-            if(raw.getTo().isSelected() && !raw.getText().getText().trim().isEmpty()) {
-                timerTaskControllerService.setPause(true);
-                raw.getStartup().setStyle("-fx-background-image: url(icons/play.png)");
-                taskTimerStatus = timerStatus.PAUSED;
-                raw.getText().setText(getStrikethroughText(textValue));
-            }
-            else if (!raw.getTo().isSelected() && !raw.getText().getText().trim().isEmpty()){
-                raw.getText().setText(getUnStrikethroughText(textValue));
-            }
-            else if(raw.getTo().isSelected() && raw.getText().getText().trim().isEmpty()){
-                raw.getText().setText(raw.getText().getText().trim());
-                raw.getTo().setSelected(false);
-                Controller.getInstance().updateProgress();
-            }
-        });
-                /*//check box tooltips
-                raw.getTo().setOnMouseEntered(action -> {
-                                if(raw.getText().getText().isEmpty()){
-                                        raw.getTo().setTooltip(new Tooltip("You cannot perform task without definition"));
-                                }
-                                else {
-                                        raw.getTo().setTooltip(new Tooltip("Keep it up"));
-                                }*/
-        //textField logic
-        raw.getText().setPromptText("New task...");
-        raw.getText().setText(text);
-        raw.getText().setOnKeyTyped(action -> {
-            Controller.getInstance().updateProgress();
-        });
-
-        //startup button logic
-        raw.getStartup().setStyle("-fx-background-image: url(icons/play.png)");
-        raw.getStartup().setOnAction(actionEvent3 -> {
-            if(!raw.getText().getText().isEmpty() && !raw.getTo().isSelected() && taskTimerStatus.equals(timerStatus.PAUSED)) {
-                timerTaskControllerService.setPause(false);
-                raw.getStartup().setStyle("-fx-background-image: url(icons/pause.png)");
-                raw.getStartup().setOnMouseEntered(action -> raw.getStartup().setStyle("-fx-background-image: url(icons/pause.gif)"));
-                raw.getStartup().setOnMouseExited(action -> raw.getStartup().setStyle("-fx-background-image: url(icons/pause.png)"));
-                taskTimerStatus = timerStatus.IN_PROGRESS;
-            }
-            else if(taskTimerStatus.equals(timerStatus.IN_PROGRESS)){
-                raw.getStartup().setStyle("-fx-background-image: url(icons/play.png)");
-                raw.getStartup().setOnMouseEntered(action -> raw.getStartup().setStyle("-fx-background-image: url(icons/play.gif)"));
-                raw.getStartup().setOnMouseExited(action -> raw.getStartup().setStyle("-fx-background-image: url(icons/play.png)"));
-                taskTimerStatus = timerStatus.PAUSED;
-                timerTaskControllerService.setPause(true);
-            }
-        });
-        raw.getStartup().setOnMouseEntered(action -> raw.getStartup().setStyle("-fx-background-image: url(icons/play.gif)"));
-        raw.getStartup().setOnMouseExited(action -> raw.getStartup().setStyle("-fx-background-image: url(icons/play.png)"));
-
-        //del button logic
-        raw.getDel().setOnAction(actionEvent1 -> {
-            timerTaskControllerService.cancel();
-            Controller.getInstance().removeTaskTableRaw(raw);
-        });
-        //del button animation
-        raw.getDel().setOnMouseEntered(action -> raw.getDel().setStyle("-fx-background-image: url(icons/bin.gif)"));
-        raw.getDel().setOnMouseExited(action -> raw.getDel().setStyle("-fx-background-image: url(icons/bin.png)"));
-        DataKeeper.getInstance().addTaskTableRaw(raw);
+    public void addTaskTablerow(Boolean to, String text, String time){
+        TaskTableRow row = getDefaultrowTableRow();
+        row.getTo().setSelected(to);
+        row.getText().setText(text);
+        row.getTime().setText(time);
+        row.getTimerTaskControllerService().setSeconds(secondsCounter(row.getTime().getText()));
+        DataKeeper.getInstance().addTaskTableRow(row);
     }
     
 
-    public void removeTaskTableRaw(TaskTableRaw raw){
-        DataKeeper.getInstance().removeTaskTableRaw(raw);
+    public void removeTaskTableRow(TaskTableRow row){
+        DataKeeper.getInstance().removeTaskTableRow(row);
         Controller.getInstance().displayTaskTable();
         Controller.getInstance().updateProgress();
+
+    }
+
+    private TaskTableRow getDefaultrowTableRow(){
+        TaskTableRow row = new TaskTableRow();
+        //timer mapping
+        row.getTime().setText(TIME_FORMAT);
+        row.getTimerTaskControllerService().setSeconds(0);
+        row.getTimerTaskControllerService().setPause(true);
+        taskTimerStatus = timerStatus.PAUSED;
+
+        //toHistory Button logic
+        row.getHistory().setOnAction(actionEvent8 -> {
+            if (row.getTo().isSelected()) {
+                Controller.getInstance().addHistoryTablerow(getUnStrikethroughText(row.getText().getText()),row.getTime().getText());
+            }
+        });
+        StyleProvider.getInstance().getHistoryButtonStyle(row.getHistory());
+        //checkBox logic
+        row.getTo().setOnAction(actionEvent2 -> {
+            Controller.getInstance().updateProgress();
+            String textValue = row.getText().getText().trim();
+            if(row.getTo().isSelected() && !row.getText().getText().trim().isEmpty()) {
+                row.getTimerTaskControllerService().setPause(true);
+                StyleProvider.getInstance().getStartupButtonStyleOnPauseCondition(row.getStartup());
+
+                taskTimerStatus = timerStatus.PAUSED;
+                row.getText().setText(getStrikethroughText(textValue));
+            }
+            else if (!row.getTo().isSelected() && !row.getText().getText().trim().isEmpty()){
+                row.getText().setText(getUnStrikethroughText(textValue));
+            }
+            else if(row.getTo().isSelected() && row.getText().getText().trim().isEmpty()){
+                row.getText().setText(row.getText().getText().trim());
+                row.getTo().setSelected(false);
+                Controller.getInstance().updateProgress();
+            }
+        });
+                /*//check box tooltips
+                row.getTo().setOnMouseEntered(action -> {
+                                if(row.getText().getText().isEmpty()){
+                                        row.getTo().setTooltip(new Tooltip("You cannot perform task without definition"));
+                                }
+                                else {
+                                        row.getTo().setTooltip(new Tooltip("Keep it up"));
+                                }*/
+        //textField logic
+        row.getText().setPromptText("New task...");
+        row.getText().setOnKeyTyped(action ->{
+            if(row.getText().getText().trim().isEmpty()) {
+                row.getTimerTaskControllerService().setPause(true);
+                row.getTimerTaskControllerService().setSeconds(0);
+                row.getTime().setText(TIME_FORMAT);
+                taskTimerStatus = timerStatus.PAUSED;
+                StyleProvider.getInstance().getStartupButtonStyleOnPauseCondition(row.getStartup());
+            }
+            Controller.getInstance().updateProgress();
+        });
+
+        //startup button logic
+        StyleProvider.getInstance().getStartupButtonStyleOnPauseCondition(row.getStartup());
+        row.getStartup().setOnAction(actionEvent3 -> {
+            if(!row.getText().getText().trim().isEmpty() && !row.getTo().isSelected() && taskTimerStatus.equals(timerStatus.PAUSED)) {
+                row.getTimerTaskControllerService().setPause(false);
+                StyleProvider.getInstance().getStartupButtonStyleOnPlayCondition(row.getStartup());
+                taskTimerStatus = timerStatus.IN_PROGRESS;
+            }
+            else if(taskTimerStatus.equals(timerStatus.IN_PROGRESS)){
+                StyleProvider.getInstance().getStartupButtonStyleOnPauseCondition(row.getStartup());
+                taskTimerStatus = timerStatus.PAUSED;
+                row.getTimerTaskControllerService().setPause(true);
+            }
+        });
+        //del button logic
+        row.getDel().setOnAction(actionEvent1 -> {
+            row.getTimerTaskControllerService().cancel();
+            Controller.getInstance().removeTaskTablerow(row);
+
+        });
+        //del button animation
+        StyleProvider.getInstance().getDelButtonStyle(row.getDel());
+        return row;
 
     }
 
@@ -229,13 +144,13 @@ public class TaskTableService {
 
     private long secondsCounter(String time){
         DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-        Date reference = null;
+        Date reference;
         try {
-            reference = dateFormat.parse(timeFormat);
+            reference = dateFormat.parse(TIME_FORMAT);
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
-        Date date = null;
+        Date date;
         try {
             date = dateFormat.parse(time);
         } catch (ParseException e) {

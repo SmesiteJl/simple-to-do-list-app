@@ -1,29 +1,31 @@
 package com.smesitejl.service;
 
-import com.smesitejl.DataKeeper;
+import com.smesitejl.entitys.TaskTableRow;
+import com.smesitejl.repository.DataKeeper;
 import com.smesitejl.controller.Controller;
-import com.smesitejl.entitys.TaskTableRaw;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.TextField;
 
 public class ProgressProcessingService {
-    private Double currProgressValue;
+
     public void updateProgress(){
+        double currProgressValue;
         double selectedNotEmpty = 0.;
         double notEmptyTasks = 0.;
-        for (int i = 0; i < DataKeeper.getInstance().getTaskTaskTableRaws().size(); i++) {
-            TaskTableRaw raw = DataKeeper.getInstance().getTaskTaskTableRaws().get(i);
-            if(raw.getTo().isSelected() && !raw.getText().getText().isEmpty()){
+        for (int i = 0; i < DataKeeper.getInstance().getTaskTaskTableRows().size(); i++) {
+            TaskTableRow row = DataKeeper.getInstance().getTaskTaskTableRows().get(i);
+            if(row.getTo().isSelected() && !row.getText().getText().isEmpty()){
                 selectedNotEmpty+=1;
             }
-            if(!raw.getText().getText().isEmpty()){
+            if(!row.getText().getText().isEmpty()){
                 notEmptyTasks +=1;
             }
         }
-        currProgressValue = selectedNotEmpty / notEmptyTasks;
-        if (currProgressValue.isNaN()){
+        if(notEmptyTasks == 0.){
             currProgressValue = 0.;
         }
+        else{
+            currProgressValue = selectedNotEmpty / notEmptyTasks;
+        }
+
         Controller.getInstance().displayProgress(currProgressValue);
     }
 }

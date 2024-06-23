@@ -1,4 +1,2 @@
 
-m	java:S106*"+Replace this use of System.out by a logger.(¸¹íÒ8•õ‚ïƒ2J$e04f8778-757a-4e59-aab2-a170d9d2ed66
-b
-java:S1128"ERemove this unused import 'com.smesitejl.context.ApplicationContext'.(‘õ‡‚8µ‡þ…„2
+m	java:S106)"+Replace this use of System.out by a logger.(¸¹íÒ8•õ‚ïƒ2J$6565405d-8502-49b9-a202-fd87d4055620

@@ -2,20 +2,17 @@ package com.smesitejl.service;
 
 import com.google.gson.*;
 import com.smesitejl.controller.Controller;
-import com.smesitejl.entitys.HistoryTableRaw;
-import com.smesitejl.entitys.TaskTableRaw;
-import com.smesitejl.DataKeeper;
+import com.smesitejl.entitys.HistoryTableRow;
+import com.smesitejl.entitys.TaskTableRow;
+import com.smesitejl.repository.DataKeeper;
 import javafx.collections.ObservableList;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 
 import java.io.*;
 
 public class DataTransferService {
     private final PathProviderService pathProviderService = new PathProviderService();
-    private final ObservableList<TaskTableRaw> taskTableRaws = DataKeeper.getInstance().getTaskTaskTableRaws();
-    private final ObservableList<HistoryTableRaw> historyTableRaws = DataKeeper.getInstance().getHistoryTableRaws();
+    private final ObservableList<TaskTableRow> taskTablerows = DataKeeper.getInstance().getTaskTaskTableRows();
+    private final ObservableList<HistoryTableRow> historyTablerows = DataKeeper.getInstance().getHistoryTableRows();
     private final PathProviderService path = new PathProviderService();
 
 
@@ -26,12 +23,12 @@ public class DataTransferService {
     public void unloadHistory(){
         Gson gson = new Gson();
         JsonArray jsonArray = new JsonArray();
-        for (int i = 0; i < historyTableRaws.size(); i++) {
+        for (int i = 0; i < historyTablerows.size(); i++) {
             JsonObject jsonObject = new JsonObject();
-            HistoryTableRaw raw = historyTableRaws.get(i);
-            jsonObject.addProperty("text", raw.getText().getText());
-            jsonObject.addProperty("time", raw.getTime().getText());
-            jsonObject.addProperty("day", raw.getDate().getText());
+            HistoryTableRow row = historyTablerows.get(i);
+            jsonObject.addProperty("text", row.getText().getText());
+            jsonObject.addProperty("time", row.getTime().getText());
+            jsonObject.addProperty("day", row.getDate().getText());
             jsonArray.add(jsonObject);        }
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(pathProviderService.getHistoryTablePath()))) {
             gson.toJson(jsonArray, writer);
@@ -43,13 +40,15 @@ public class DataTransferService {
     public void unloadCurrentTasks() {
         Gson gson = new Gson();
         JsonArray jsonArray = new JsonArray();
-        for (int i = 0; i < taskTableRaws.size(); i++) {
+        for (int i = 0; i < taskTablerows.size(); i++) {
             JsonObject jsonObject = new JsonObject();
-            TaskTableRaw raw = taskTableRaws.get(i);
-            jsonObject.addProperty("to", raw.getTo().isSelected());
-            jsonObject.addProperty("text", raw.getText().getText());
-            jsonObject.addProperty("time", raw.getTime().getText());
+            TaskTableRow row = taskTablerows.get(i);
+            if(!row.getText().getText().trim().isEmpty()){
+            jsonObject.addProperty("to", row.getTo().isSelected());
+            jsonObject.addProperty("text", row.getText().getText());
+            jsonObject.addProperty("time", row.getTime().getText());
             jsonArray.add(jsonObject);
+            }
         }
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(pathProviderService.getTasksTablePath()))) {
             gson.toJson(jsonArray, writer);
@@ -62,7 +61,7 @@ public class DataTransferService {
         try (BufferedReader reader = new BufferedReader(new FileReader(path.getTasksTablePath()))) {
             JsonArray jsonArray = JsonParser.parseReader(reader).getAsJsonArray();
             for (JsonElement elem : jsonArray) {
-                Controller.getInstance().addTaskTableRaw(elem.getAsJsonObject().get("to").getAsBoolean(),
+                Controller.getInstance().addTaskTablerow(elem.getAsJsonObject().get("to").getAsBoolean(),
                         elem.getAsJsonObject().get("text").getAsString(),
                         elem.getAsJsonObject().get("time").getAsString());
 
@@ -76,7 +75,7 @@ public class DataTransferService {
         try (BufferedReader reader = new BufferedReader(new FileReader(path.getHistoryTablePath()))) {
             JsonArray jsonArray = JsonParser.parseReader(reader).getAsJsonArray();
             for (JsonElement elem : jsonArray) {
-                Controller.getInstance().addHistoryTableRaw(elem.getAsJsonObject().get("text").getAsString(),
+                Controller.getInstance().addHistoryTablerow(elem.getAsJsonObject().get("text").getAsString(),
                         elem.getAsJsonObject().get("time").getAsString(),
                         elem.getAsJsonObject().get("day").getAsString());
                            }
