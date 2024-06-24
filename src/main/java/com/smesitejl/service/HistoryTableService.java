@@ -3,7 +3,6 @@ package com.smesitejl.service;
 import com.smesitejl.entitys.HistoryTableRow;
 import com.smesitejl.repository.DataKeeper;
 import com.smesitejl.controller.Controller;
-import com.smesitejl.entitys.HistoryTableRow;
 import com.smesitejl.repository.StyleProvider;
 
 import java.text.SimpleDateFormat;
@@ -35,7 +34,7 @@ public class HistoryTableService {
         HistoryTableRow row = new HistoryTableRow();
         row.getDate().setText(new SimpleDateFormat("dd.MM.yy HH:mm").format(new Date()));
         //delete button onAction and onMouseEntered/Exited
-        row.getDelete().setOnAction(actionEvent -> Controller.getInstance().removeHistoryTablerow(row));
+        row.getDelete().setOnAction(actionEvent -> Controller.getInstance().removeHistoryTableRow(row));
         StyleProvider.getInstance().getHistoryDelButtonStyle(row.getDelete());
         return row;
     }

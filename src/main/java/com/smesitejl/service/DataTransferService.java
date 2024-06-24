@@ -61,7 +61,7 @@ public class DataTransferService {
         try (BufferedReader reader = new BufferedReader(new FileReader(path.getTasksTablePath()))) {
             JsonArray jsonArray = JsonParser.parseReader(reader).getAsJsonArray();
             for (JsonElement elem : jsonArray) {
-                Controller.getInstance().addTaskTablerow(elem.getAsJsonObject().get("to").getAsBoolean(),
+                Controller.getInstance().addTaskTableRow(elem.getAsJsonObject().get("to").getAsBoolean(),
                         elem.getAsJsonObject().get("text").getAsString(),
                         elem.getAsJsonObject().get("time").getAsString());
 
@@ -75,7 +75,7 @@ public class DataTransferService {
         try (BufferedReader reader = new BufferedReader(new FileReader(path.getHistoryTablePath()))) {
             JsonArray jsonArray = JsonParser.parseReader(reader).getAsJsonArray();
             for (JsonElement elem : jsonArray) {
-                Controller.getInstance().addHistoryTablerow(elem.getAsJsonObject().get("text").getAsString(),
+                Controller.getInstance().addHistoryTableRow(elem.getAsJsonObject().get("text").getAsString(),
                         elem.getAsJsonObject().get("time").getAsString(),
                         elem.getAsJsonObject().get("day").getAsString());
                            }

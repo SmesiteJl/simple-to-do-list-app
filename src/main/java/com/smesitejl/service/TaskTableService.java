@@ -21,14 +21,17 @@ public class TaskTableService {
 
     private timerStatus taskTimerStatus = timerStatus.PAUSED;
 
-    public void  addTaskTablerow(){
-        DataKeeper.getInstance().addTaskTableRow(getDefaultrowTableRow());
+    public void addTaskTableRow(){
+        DataKeeper.getInstance().addTaskTableRow(getDefaultRowTableRow());
     }
     
-    public void addTaskTablerow(Boolean to, String text, String time){
-        TaskTableRow row = getDefaultrowTableRow();
+    public void addTaskTableRow(Boolean to, String text, String time){
+        TaskTableRow row = getDefaultRowTableRow();
         row.getTo().setSelected(to);
         row.getText().setText(text);
+        if(row.getTo().isSelected()){
+            row.getText().setEditable(false);
+        }
         row.getTime().setText(time);
         row.getTimerTaskControllerService().setSeconds(secondsCounter(row.getTime().getText()));
         DataKeeper.getInstance().addTaskTableRow(row);
@@ -42,7 +45,7 @@ public class TaskTableService {
 
     }
 
-    private TaskTableRow getDefaultrowTableRow(){
+    private TaskTableRow getDefaultRowTableRow(){
         TaskTableRow row = new TaskTableRow();
         //timer mapping
         row.getTime().setText(TIME_FORMAT);
@@ -53,7 +56,7 @@ public class TaskTableService {
         //toHistory Button logic
         row.getHistory().setOnAction(actionEvent8 -> {
             if (row.getTo().isSelected()) {
-                Controller.getInstance().addHistoryTablerow(getUnStrikethroughText(row.getText().getText()),row.getTime().getText());
+                Controller.getInstance().addHistoryTableRow(getUnStrikethroughText(row.getText().getText()),row.getTime().getText());
             }
         });
         StyleProvider.getInstance().getHistoryButtonStyle(row.getHistory());
@@ -66,10 +69,13 @@ public class TaskTableService {
                 StyleProvider.getInstance().getStartupButtonStyleOnPauseCondition(row.getStartup());
 
                 taskTimerStatus = timerStatus.PAUSED;
+                row.getTimerTaskControllerService().setPause(true);
                 row.getText().setText(getStrikethroughText(textValue));
+                row.getText().setEditable(false);
             }
             else if (!row.getTo().isSelected() && !row.getText().getText().trim().isEmpty()){
                 row.getText().setText(getUnStrikethroughText(textValue));
+                row.getText().setEditable(true);
             }
             else if(row.getTo().isSelected() && row.getText().getText().trim().isEmpty()){
                 row.getText().setText(row.getText().getText().trim());
@@ -115,7 +121,7 @@ public class TaskTableService {
         //del button logic
         row.getDel().setOnAction(actionEvent1 -> {
             row.getTimerTaskControllerService().cancel();
-            Controller.getInstance().removeTaskTablerow(row);
+            Controller.getInstance().removeTaskTableRow(row);
 
         });
         //del button animation

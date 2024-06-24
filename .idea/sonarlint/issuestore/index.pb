@@ -12,10 +12,6 @@ S
 -.idea/sonarlint/securityhotspotstore/index.pb,8\8\88a9255124c95bdc913197c120a8d560edc59c8e
 7
 pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
-4
-null,2\b\2be88ca4242c76e8253ac62474851065032d6833
-h
-8src/main/java/com/smesitejl/entitys/HistoryTableRaw.java,8\f\8f05ced25377453093d255cf09e8b795e1f14072
 s
 Csrc/main/java/com/smesitejl/service/TimerTaskControllerService.java,c\9\c9439c940f0eba97958d4a32faebcd5602c75471
 l
@@ -24,14 +20,10 @@ k
 ;src/main/java/com/smesitejl/service/TableMapperService.java,b\f\bf0f146ca70edb8f118d59a6732826a0da78c67b
 l
 <src/main/java/com/smesitejl/service/DataTransferService.java,f\c\fc989cd7e58dc010fcc1d81706f09cb85d1161a2
-[
-+src/main/java/com/smesitejl/DataKeeper.java,9\2\92a61772dae34673e1d2638eae52ea659b0a2e53
 r
 Bsrc/main/java/com/smesitejl/service/ProgressProcessingService.java,f\0\f0bdb1249111f737d6fd9211273e556c6596b693
 h
 8src/main/java/com/smesitejl/service/DayTimerService.java,2\b\2bd57f46151330203fb55cc4bb2cb35dd8dfa542
-e
-5src/main/java/com/smesitejl/entitys/TaskTableRaw.java,6\2\62b4557734c69967d22916e6fca3cd536cb0c707
 k
 ;src/main/java/com/smesitejl/context/ApplicationContext.java,c\9\c9202a4e02deb6425269bb8ae0fa96b62b69a6dc
 i
@@ -44,3 +36,7 @@ i
 9src/main/java/com/smesitejl/repository/StyleProvider.java,0\d\0d948b672cb4a9843eee1ab5bf4d8d7b34cd19f8
 f
 6src/main/java/com/smesitejl/repository/DataKeeper.java,6\5\6568449b3e664509baaa9233469f8b76d7d8b185
+e
+5src/main/java/com/smesitejl/entitys/TaskTableRow.java,d\1\d1a0b90746940ecb3e1b429aeb02d7e43f35a770
+h
+8src/main/java/com/smesitejl/entitys/HistoryTableRow.java,e\f\ef5545ac32cdbfaebff2fd91b76bc77000e84946

@@ -11,6 +11,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.fxml.FXML;
+import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -19,6 +20,19 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable {
 
     private static Controller instance;
+
+    @FXML
+    private SplitPane splitPane;
+
+    @FXML
+    private AnchorPane ancor;
+
+    @FXML
+    private AnchorPane historyAncor;
+
+    @FXML
+    private AnchorPane taskAncor;
+
     @FXML
     private Button addTableRow;
 
@@ -89,9 +103,9 @@ public class Controller implements Initializable {
     private Controller(){
     }
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        splitPane.setDividerPositions(200.0 / 1280.0);
         applicationContext.getTableMapperService().doTaskTableMapping(taskTable,
                     toHistoryColoumn,
                     checkColoumn,
@@ -124,7 +138,7 @@ public class Controller implements Initializable {
     private void mainMapper(){
         currentProgressText.setText("0%");
         addTableRow.setOnAction(actionEvent -> {
-                    addTaskTablerow();
+                    addTaskTableRow();
                     displayTaskTable();
                     applicationContext.getProgressProcessingService().updateProgress();
                 }
@@ -144,15 +158,15 @@ public class Controller implements Initializable {
 
     }
 
-    public void addHistoryTablerow(String text, String time, String date){
+    public void addHistoryTableRow(String text, String time, String date){
         applicationContext.getHistoryTableService().addHistoryTableRow(text, time, date);
         displayHistoryTable();
     }
-    public void addHistoryTablerow(String text, String time){
+    public void addHistoryTableRow(String text, String time){
         applicationContext.getHistoryTableService().addHistoryTableRow(text, time);
         displayHistoryTable();
     }
-    public void removeHistoryTablerow(HistoryTableRow row){
+    public void removeHistoryTableRow(HistoryTableRow row){
         applicationContext.getHistoryTableService().removeHistoryTableRow(row);
         displayHistoryTable();
 
@@ -163,14 +177,14 @@ public class Controller implements Initializable {
         historyTable.setItems(getReverseList());
     }
 
-    public void addTaskTablerow(){
-        applicationContext.getTaskTableService().addTaskTablerow();
+    public void addTaskTableRow(){
+        applicationContext.getTaskTableService().addTaskTableRow();
     }
-    public void addTaskTablerow(Boolean to, String text, String time){
-        applicationContext.getTaskTableService().addTaskTablerow(to, text,time);
+    public void addTaskTableRow(Boolean to, String text, String time){
+        applicationContext.getTaskTableService().addTaskTableRow(to, text,time);
     }
 
-    public void removeTaskTablerow(TaskTableRow row) {
+    public void removeTaskTableRow(TaskTableRow row) {
         applicationContext.getTaskTableService().removeTaskTableRow(row);
     }
 

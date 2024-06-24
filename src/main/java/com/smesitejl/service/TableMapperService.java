@@ -3,8 +3,11 @@ package com.smesitejl.service;
 
 import com.smesitejl.entitys.HistoryTableRow;
 import com.smesitejl.entitys.TaskTableRow;
+import javafx.beans.binding.Bindings;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+
+import javax.naming.Binding;
 
 public class TableMapperService {
     public void doTaskTableMapping(TableView<TaskTableRow> table,
@@ -22,22 +25,17 @@ public class TableMapperService {
         startupColoumn.setCellValueFactory(new PropertyValueFactory<>("startup"));
         delColoumn.setCellValueFactory(new PropertyValueFactory<>("del"));
         //columns wight
-        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_NEXT_COLUMN);
-        timeColoumn.setPrefWidth(75);
         toHistoryColoumn.setPrefWidth(35);
         checkColoumn.setPrefWidth(35);
+        timeColoumn.setPrefWidth(75);
         startupColoumn.setPrefWidth(35);
-        delColoumn.setPrefWidth(35);
-        //TODO: make text column dynamic widht 
-        //textColoumn.setMinWidth(100);
-        //textColoumn.prefWidthProperty().bind(table.widthProperty().divide(1.35)); //16/24
-        //toHistoryColoumn.prefWidthProperty().bind(table.widthProperty().divide(24)); //1/24
-        //checkColoumn.prefWidthProperty().bind(table.widthProperty().divide(24)); //1/24
-
-        //timeColoumn.prefWidthProperty().bind((table.widthProperty().divide(12))); //4/24
-        //startupColoumn.prefWidthProperty().bind(table.widthProperty().divide(12)); //1/24
-        //delColoumn.prefWidthProperty().bind(table.widthProperty().divide(24)); //1/24
-        //TODO: count wight of coloumns
+        delColoumn.setPrefWidth(60);
+        double size = toHistoryColoumn.getPrefWidth()
+                + checkColoumn.getPrefWidth()
+                + timeColoumn.getPrefWidth()
+                + startupColoumn.getPrefWidth()
+                + delColoumn.getPrefWidth();
+        textColoumn.prefWidthProperty().bind(table.widthProperty().subtract(size));
     }
     public void doHistoryTableMapping(TableView<HistoryTableRow> historyTable,
                                       TableColumn<HistoryTableRow, Button> historyTableDelColoumn,
@@ -45,15 +43,19 @@ public class TableMapperService {
                                       TableColumn<HistoryTableRow, TextField> historyTableTimeColoumn,
                                       TableColumn<HistoryTableRow, TextField> historyTableDateColoumn){
         historyTable.setSelectionModel(null);
+
         historyTableTaskColoumn.setCellValueFactory(new PropertyValueFactory<>("text"));
         historyTableTimeColoumn.setCellValueFactory(new PropertyValueFactory<>("time"));
         historyTableDateColoumn.setCellValueFactory(new PropertyValueFactory<>("date"));
         historyTableDelColoumn.setCellValueFactory(new PropertyValueFactory<>("delete"));
 
         //columns wight
-        historyTableTaskColoumn.prefWidthProperty().bind(historyTable.widthProperty().divide(2));
-        historyTableTimeColoumn.prefWidthProperty().bind(historyTable.widthProperty().divide(8));
-        historyTableDateColoumn.prefWidthProperty().bind(historyTable.widthProperty().divide(4));
-        historyTableDelColoumn.prefWidthProperty().bind((historyTable.widthProperty().divide(8)));
+        historyTableDelColoumn.setPrefWidth(20);
+        historyTableDateColoumn.setPrefWidth(70);
+        historyTableTimeColoumn.setPrefWidth(45);
+        double size = historyTableDelColoumn.getPrefWidth()
+                + historyTableDateColoumn.getPrefWidth()
+                + historyTableTimeColoumn.getPrefWidth();
+        historyTableTaskColoumn.prefWidthProperty().bind(historyTable.widthProperty().subtract(size));
     }
 }

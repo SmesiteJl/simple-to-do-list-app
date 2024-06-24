@@ -28,8 +28,8 @@ public class App extends Application {
         Image ico = new Image("icons/logo.png");
         stage.getIcons().add(ico);
         stage.setScene(scene);
-        stage.setMinWidth(480);
-        stage.setMinHeight(720);
+        stage.setMinWidth(600);
+        stage.setMinHeight(400);
         stage.setOnCloseRequest(event -> {
             dtc.unloadHistory();
             dtc.unloadCurrentTasks();
