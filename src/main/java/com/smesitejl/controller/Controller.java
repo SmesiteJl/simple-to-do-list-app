@@ -1,19 +1,32 @@
 package com.smesitejl.controller;
 import com.smesitejl.context.ApplicationContext;
-import com.smesitejl.entitys.HistoryTableRow;
-import com.smesitejl.entitys.TaskTableRow;
+import com.smesitejl.entitys.mainstageentitys.HistoryTableRow;
+import com.smesitejl.entitys.mainstageentitys.TaskTableRow;
 
 
+import com.smesitejl.entitys.widgetentitys.WidgetTableRow;
 import com.smesitejl.repository.DataKeeper;
 import com.smesitejl.repository.StyleProvider;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import javafx.util.Duration;
+import lombok.Setter;
 
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 
@@ -49,7 +62,7 @@ public class Controller implements Initializable {
     private TableColumn<TaskTableRow, TextField> textColoumn;
 
     @FXML
-    private TableColumn<TaskTableRow, TextField> timeColoumn;
+    private TableColumn<TaskTableRow, Label> timeColoumn;
 
     @FXML
     private TableColumn<TaskTableRow, Button> startupColoumn;
@@ -67,16 +80,16 @@ public class Controller implements Initializable {
     private TableView<HistoryTableRow> historyTable;
 
     @FXML
-    private TableColumn<HistoryTableRow, TextField> historyTableDateColoumn;
+    private TableColumn<HistoryTableRow, Label> historyTableDateColoumn;
 
     @FXML
     private TableColumn<HistoryTableRow, Button> historyTableDelColoumn;
 
     @FXML
-    private TableColumn<HistoryTableRow, TextField> historyTableTaskColoumn;
+    private TableColumn<HistoryTableRow, Label> historyTableTaskColoumn;
 
     @FXML
-    private TableColumn<HistoryTableRow, TextField> historyTableTimeColoumn;
+    private TableColumn<HistoryTableRow, Label> historyTableTimeColoumn;
 
     @FXML
     private Button startDayButton;
@@ -90,7 +103,22 @@ public class Controller implements Initializable {
     @FXML
     private Button simpleViewButton;
 
+    @FXML
+    private Button collapseHistory;
+
+    @FXML
+    private Button expandHistory;
+
+    @Setter
+    private Stage widgetStage;
+    @Setter
+    private Stage mainStage;
+
+    private final DoubleProperty progress = new SimpleDoubleProperty(0);
+
     private final ApplicationContext applicationContext = ApplicationContext.getInstance();
+
+
 
 
     public static synchronized Controller getInstance() {
@@ -105,6 +133,23 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        progressBar.progressProperty().bind(progress);
+        StyleProvider.getInstance().getExpandButtonStyle(expandHistory);
+        expandHistory.setVisible(false);
+        expandHistory.setOnAction(actionEvent2 -> {
+            splitPane.lookup(".split-pane-divider").setVisible(true);
+            historyAncor.setMinWidth(235);
+            historyAncor.setMaxWidth(Double.MAX_VALUE);
+            expandHistory.setVisible(false);
+        });
+        StyleProvider.getInstance().getCollapseButtonStyle(collapseHistory);
+        collapseHistory.setOnAction(actionEvent -> {
+            splitPane.lookup(".split-pane-divider").setVisible(false);
+            historyAncor.setMinWidth(0);
+            historyAncor.setMaxWidth(0);
+            expandHistory.setVisible(true);
+        });
+
         splitPane.setDividerPositions(200.0 / 1280.0);
         applicationContext.getTableMapperService().doTaskTableMapping(taskTable,
                     toHistoryColoumn,
@@ -151,8 +196,28 @@ public class Controller implements Initializable {
         applicationContext.getDayTimerService().createDayTimer(startDayButton, endDayButton,dayTimer);
 
         //simple view button logic
+        StyleProvider.getInstance().getSimpleViewButtonStyle(simpleViewButton);
         simpleViewButton.setOnAction(actionEvent6 -> {
-            //TODO: simple view
+            ObservableList<WidgetTableRow> widgetTableRows = FXCollections.observableArrayList();
+            ObservableList<TaskTableRow> taskTableRows = DataKeeper.getInstance().getTaskTaskTableRows();
+            for (int i = 0; i < taskTableRows.size(); i++) {
+                if(!taskTableRows.get(i).getText().getText().trim().isEmpty()){
+                WidgetTableRow row = new WidgetTableRow(taskTableRows.get(i).getText().getText(),
+                        taskTableRows.get(i).getTime().getText());
+                row.getTimerTaskControllerService().setSeconds(secondsCounter(taskTableRows.get(i).getTime().getText()));
+                row.getTimerTaskControllerService().setPause(taskTableRows.get(i).getTimerTaskControllerService().isPaused());
+                widgetTableRows.add(row);
+                }
+            }
+            WidgetController.getInstance().addWidgetTaskRows(widgetTableRows);
+            if(!dayTimer.getText().equals("Start your day now!")){
+            WidgetController.getInstance().setWidgetDayTimer(secondsCounter(dayTimer.getText()), applicationContext.getDayTimerService().getIsTimerPaused());
+            }
+            else{
+                WidgetController.getInstance().setDayTimerText("Start your day now!");
+            }
+            mainStage.hide();
+            widgetStage.show();
         });
         simpleViewButton.setTooltip(new Tooltip("Go to simple view"));
 
@@ -196,9 +261,18 @@ public class Controller implements Initializable {
         applicationContext.getProgressProcessingService().updateProgress();
     }
 
-    public void displayProgress(Double currProgressValue){
-        progressBar.setProgress(currProgressValue);
+    public void displayProgress(Double currProgressValue, Double prevProgressValue){
+        progress.set(prevProgressValue);
+        animateProgress(progress, currProgressValue);
         currentProgressText.setText(String.format("%.0f", currProgressValue * 100) + "%");
+    }
+
+    private  void animateProgress(DoubleProperty progressProperty, double newValue){
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.seconds(0), new KeyValue(progressProperty, progressProperty.get())),
+                new KeyFrame(Duration.seconds(1), new KeyValue(progressProperty, newValue))
+        );
+        timeline.play();
     }
 
     private ObservableList<HistoryTableRow> getReverseList(){
@@ -207,6 +281,23 @@ public class Controller implements Initializable {
             reverseHistoryList.add(DataKeeper.getInstance().getHistoryTableRows().get(i));
         }
         return reverseHistoryList;
+    }
+
+    private long secondsCounter(String time){
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+        Date reference;
+        try {
+            reference = dateFormat.parse("00:00:00");
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        Date date;
+        try {
+            date = dateFormat.parse(time);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        return (date.getTime() - reference.getTime()) / 1000L;
     }
 
 }

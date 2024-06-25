@@ -1,6 +1,6 @@
-package com.smesitejl.service;
+package com.smesitejl.service.mainstageservice;
 
-import com.smesitejl.entitys.HistoryTableRow;
+import com.smesitejl.entitys.mainstageentitys.HistoryTableRow;
 import com.smesitejl.repository.DataKeeper;
 import com.smesitejl.controller.Controller;
 import com.smesitejl.repository.StyleProvider;

@@ -1,7 +1,7 @@
 package com.smesitejl.repository;
 
-import com.smesitejl.entitys.HistoryTableRow;
-import com.smesitejl.entitys.TaskTableRow;
+import com.smesitejl.entitys.mainstageentitys.HistoryTableRow;
+import com.smesitejl.entitys.mainstageentitys.TaskTableRow;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import lombok.Getter;

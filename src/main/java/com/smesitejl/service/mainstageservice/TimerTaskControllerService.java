@@ -1,4 +1,4 @@
-package com.smesitejl.service;
+package com.smesitejl.service.mainstageservice;
 
 import javafx.application.Platform;
 import javafx.scene.control.Label;

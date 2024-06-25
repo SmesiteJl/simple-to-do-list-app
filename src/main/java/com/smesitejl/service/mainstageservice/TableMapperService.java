@@ -1,20 +1,17 @@
-package com.smesitejl.service;
+package com.smesitejl.service.mainstageservice;
 
 
-import com.smesitejl.entitys.HistoryTableRow;
-import com.smesitejl.entitys.TaskTableRow;
-import javafx.beans.binding.Bindings;
+import com.smesitejl.entitys.mainstageentitys.HistoryTableRow;
+import com.smesitejl.entitys.mainstageentitys.TaskTableRow;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-
-import javax.naming.Binding;
 
 public class TableMapperService {
     public void doTaskTableMapping(TableView<TaskTableRow> table,
                                    TableColumn<TaskTableRow, Button> toHistoryColoumn,
                                    TableColumn<TaskTableRow, CheckBox> checkColoumn,
                                    TableColumn<TaskTableRow, TextField> textColoumn,
-                                   TableColumn<TaskTableRow, TextField> timeColoumn,
+                                   TableColumn<TaskTableRow, Label> timeColoumn,
                                    TableColumn<TaskTableRow, Button> startupColoumn,
                                    TableColumn<TaskTableRow, Button> delColoumn){
         table.setSelectionModel(null);
@@ -25,10 +22,10 @@ public class TableMapperService {
         startupColoumn.setCellValueFactory(new PropertyValueFactory<>("startup"));
         delColoumn.setCellValueFactory(new PropertyValueFactory<>("del"));
         //columns wight
-        toHistoryColoumn.setPrefWidth(35);
+        toHistoryColoumn.setPrefWidth(40);
         checkColoumn.setPrefWidth(35);
         timeColoumn.setPrefWidth(75);
-        startupColoumn.setPrefWidth(35);
+        startupColoumn.setPrefWidth(40);
         delColoumn.setPrefWidth(60);
         double size = toHistoryColoumn.getPrefWidth()
                 + checkColoumn.getPrefWidth()
@@ -39,9 +36,9 @@ public class TableMapperService {
     }
     public void doHistoryTableMapping(TableView<HistoryTableRow> historyTable,
                                       TableColumn<HistoryTableRow, Button> historyTableDelColoumn,
-                                      TableColumn<HistoryTableRow, TextField> historyTableTaskColoumn,
-                                      TableColumn<HistoryTableRow, TextField> historyTableTimeColoumn,
-                                      TableColumn<HistoryTableRow, TextField> historyTableDateColoumn){
+                                      TableColumn<HistoryTableRow, Label> historyTableTaskColoumn,
+                                      TableColumn<HistoryTableRow, Label> historyTableTimeColoumn,
+                                      TableColumn<HistoryTableRow, Label> historyTableDateColoumn){
         historyTable.setSelectionModel(null);
 
         historyTableTaskColoumn.setCellValueFactory(new PropertyValueFactory<>("text"));
@@ -50,7 +47,7 @@ public class TableMapperService {
         historyTableDelColoumn.setCellValueFactory(new PropertyValueFactory<>("delete"));
 
         //columns wight
-        historyTableDelColoumn.setPrefWidth(20);
+        historyTableDelColoumn.setPrefWidth(32);
         historyTableDateColoumn.setPrefWidth(70);
         historyTableTimeColoumn.setPrefWidth(45);
         double size = historyTableDelColoumn.getPrefWidth()

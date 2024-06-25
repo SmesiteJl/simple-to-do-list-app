@@ -1,13 +1,15 @@
-package com.smesitejl.service;
+package com.smesitejl.service.mainstageservice;
 
-import com.smesitejl.entitys.TaskTableRow;
+import com.smesitejl.entitys.mainstageentitys.TaskTableRow;
 import com.smesitejl.repository.DataKeeper;
 import com.smesitejl.controller.Controller;
 
 public class ProgressProcessingService {
+    private double currProgressValue;
+    private double prevProgressValue;
 
     public void updateProgress(){
-        double currProgressValue;
+        prevProgressValue = currProgressValue;
         double selectedNotEmpty = 0.;
         double notEmptyTasks = 0.;
         for (int i = 0; i < DataKeeper.getInstance().getTaskTaskTableRows().size(); i++) {
@@ -26,6 +28,6 @@ public class ProgressProcessingService {
             currProgressValue = selectedNotEmpty / notEmptyTasks;
         }
 
-        Controller.getInstance().displayProgress(currProgressValue);
+        Controller.getInstance().displayProgress(currProgressValue, prevProgressValue);
     }
 }

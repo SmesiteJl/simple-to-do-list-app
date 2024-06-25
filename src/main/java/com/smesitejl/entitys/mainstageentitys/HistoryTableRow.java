@@ -1,4 +1,4 @@
-package com.smesitejl.entitys;
+package com.smesitejl.entitys.mainstageentitys;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

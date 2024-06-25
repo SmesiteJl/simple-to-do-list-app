@@ -1,4 +1,4 @@
-package com.smesitejl.service;
+package com.smesitejl.service.mainstageservice;
 
 
 import com.smesitejl.repository.StyleProvider;
@@ -45,6 +45,14 @@ public class DayTimerService {
             StyleProvider.getInstance().getStartDayButtonStyleOnStartCondition(startDayButton);
             //TODO: сделать вылетающее окно "Сегодня вы проработали HH:MM:SS. Потрясающе!"
         });
-
+    }
+    public boolean getIsTimerPaused(){
+        switch (daySessionStatus){
+            case NOT_STARTED:
+            case PAUSED:
+                return true;
+            default:
+                return false;
+        }
     }
 }

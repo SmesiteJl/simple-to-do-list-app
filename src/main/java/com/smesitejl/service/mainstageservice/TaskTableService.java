@@ -1,6 +1,7 @@
-package com.smesitejl.service;
+package com.smesitejl.service.mainstageservice;
 
-import com.smesitejl.entitys.TaskTableRow;
+import com.smesitejl.entitys.mainstageentitys.TaskTableRow;
+import com.smesitejl.entitys.widgetentitys.WidgetTableRow;
 import com.smesitejl.repository.DataKeeper;
 import com.smesitejl.controller.Controller;
 import com.smesitejl.repository.StyleProvider;

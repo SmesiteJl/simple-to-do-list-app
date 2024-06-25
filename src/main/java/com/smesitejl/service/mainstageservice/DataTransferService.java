@@ -1,9 +1,9 @@
-package com.smesitejl.service;
+package com.smesitejl.service.mainstageservice;
 
 import com.google.gson.*;
 import com.smesitejl.controller.Controller;
-import com.smesitejl.entitys.HistoryTableRow;
-import com.smesitejl.entitys.TaskTableRow;
+import com.smesitejl.entitys.mainstageentitys.HistoryTableRow;
+import com.smesitejl.entitys.mainstageentitys.TaskTableRow;
 import com.smesitejl.repository.DataKeeper;
 import javafx.collections.ObservableList;
 
