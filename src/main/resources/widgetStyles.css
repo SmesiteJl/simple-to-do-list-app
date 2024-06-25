@@ -1,6 +1,8 @@
 #widgetAnchor{
-    -fx-background-color: rgba(255, 255, 255, 0.5);
-    -fx-background-radius: 10;
+    -fx-background-color: rgba(255, 255, 255, 0.2);
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-border-color: rgba(255, 255, 255, 0.2);
 }
 #widgetTable .scroll-bar *{
     -fx-min-width: 0;
@@ -17,20 +19,17 @@
 }
 #widgetDayTimer .text{
     -fx-fill: black;
-    -fx-effect: dropshadow(gaussian, white, 3, 0, 1, 1);
+    -fx-effect: dropshadow(gaussian, white, 10, 0, 1, 1);
 }
 #widgetMainLabel .text{
     -fx-fill: black;
-    -fx-effect: dropshadow(gaussian, white, 3, 0, 1, 1);
+    -fx-effect: dropshadow(gaussian, white, 10, 0, 1, 1);
 }
 #widgetTable .column-header-background {
     visibility: hidden;
     -fx-padding: -1em;
 }
-#widgetTable .taskTable-row-cell{
-    -fx-border-color: TRANSPARENT;
-    -fx-background-color: rgba(225, 225, 225, 0);
-}
+
 #widgetTable {
     -fx-base: transparent;
     -fx-background-color: transparent;
@@ -47,11 +46,11 @@
 
 #widgetTaskColumn .label .text{
     -fx-fill: black;
-    -fx-effect: dropshadow(gaussian, white, 3, 0, 1, 1);
+    -fx-effect: dropshadow(gaussian, white, 10, 0, 1, 1);
 }
 #widgetTimeColumn .label .text{
     -fx-fill: black;
-    -fx-effect: dropshadow(gaussian, white, 3, 0, 1, 1);
+    -fx-effect: dropshadow(gaussian, white, 10, 0, 1, 1);
 }
 
 
